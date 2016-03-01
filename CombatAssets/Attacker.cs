@@ -8,6 +8,7 @@ public class Attacker : MonoBehaviour {
 	GameObject manager;
 	Manager man;
 	GameObject spot;//spotlight
+    GameObject spot2;//arrow_spotlight
 	
 	GameObject self;//references some dude
 	
@@ -21,9 +22,13 @@ public class Attacker : MonoBehaviour {
 	GameObject damageText;//used for changing
 	GameObject damageSplash;//the opacity of damage
 	Text damagetxt;//used for editing the text when doing damage
+    GameObject health_txt;
+    GameObject stam_txt;
 	
 	float opacity;//used for highlight
 	float opacity_step;
+    float displacement;
+    float displacement_step;
 	
 	public bool dead;
 	
@@ -53,7 +58,7 @@ public class Attacker : MonoBehaviour {
 		if (!dead) {
 			if (displayingDamage){//damage animation
 				///Get Hold of Splotch+Text
-				Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("Text").GetComponent<Text>();
+				Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
 				Renderer splotchcolor = targeting.transform.FindChild("Canvas1").FindChild ("blood_splotch").GetComponent<Renderer>();
 				//Make them fade over time
 				dmgtxt.color = new Vector4(dmgtxt.color.r,dmgtxt.color.g,dmgtxt.color.b,dmgtxt.color.a*.98f);
@@ -90,16 +95,30 @@ public class Attacker : MonoBehaviour {
 				if (opacity < 15) {
 					opacity = 250;
 					opacity_step -= 2;
-				} else if (opacity < 64) {				
-					opacity = 64;
+				} else if (opacity < 191) {				
+					opacity = 191;
 					opacity_step = 2;
 				} else if (opacity > 255) {
 					opacity = 255;
 					opacity_step = -2;
 				}
+                if (displacement == 0)
+                {
+                    displacement_step = 0.003f;
+                }
+                if (displacement < -0.025)
+                    displacement_step = 0.0015f;
+                if (displacement > 0.025)
+                    displacement_step = -0.0015f;
+                displacement += displacement_step;
 				opacity += opacity_step;
-				if (partynumber < 11)
-					EditOpacity (spot, opacity);
+                if (partynumber < 11)
+                {
+                    EditOpacity(spot, opacity);
+                    EditOpacity(spot2, opacity);
+                    spot2.transform.position = new Vector3(spot2.transform.position.x, spot2.transform.position.y + displacement, spot2.transform.position.z);
+                }
+                
 			}
 		}else {//if you are dead you will shrink
 			self.transform.localScale = new Vector3(self.transform.localScale.x*.98f, self.transform.localScale.y*.96f,1f);
@@ -140,14 +159,21 @@ public class Attacker : MonoBehaviour {
 			break;
 		}
 		
-		damageText = self.transform.FindChild ("Canvas1").FindChild ("Text").gameObject;
+		damageText = self.transform.FindChild ("Canvas1").FindChild ("dmg_text").gameObject;
 		damageSplash = self.transform.FindChild ("Canvas1").FindChild ("blood_splotch").gameObject;
 		damageText.GetComponent<Text> ().color = new Vector4 (damageText.GetComponent<Text> ().color.r, damageText.GetComponent<Text> ().color.g, damageText.GetComponent<Text> ().color.b, 0);
+        if (partynumber < 11)
+        {
+            health_txt = self.transform.FindChild("Canvas1").FindChild("health_text").gameObject;
+            stam_txt = self.transform.FindChild("Canvas1").FindChild("stam_text").gameObject;
+        }
 		EditOpacity (damageSplash, 0);
 		
 		if (partynumber < 11) {
 			spot = self.transform.FindChild ("spotlight").gameObject;
+            spot2 = self.transform.FindChild("arrow_spotlight").gameObject;
 			EditOpacity (spot, 0);
+            EditOpacity(spot2, 0);
 			h1 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack1").FindChild ("highlight").gameObject;
 			h2 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack2").FindChild ("highlight").gameObject;
 			h3 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack3").FindChild ("highlight").gameObject;
@@ -194,6 +220,7 @@ public class Attacker : MonoBehaviour {
 			
 			opacity = 0;
 			EditOpacity (spot, 0);
+            EditOpacity(spot2, 0);
 			EditOpacity (h1, 0);
 			EditOpacity (h2, 0);
 			EditOpacity (h3, 0);
@@ -389,7 +416,7 @@ public class Attacker : MonoBehaviour {
 		targeting.transform.localScale = new Vector3 (targeting.transform.localScale.x * 2.0f, targeting.transform.localScale.y * 2.0f, targeting.transform.localScale.z);
 		
 		//retrieve the text and blood_splotch
-		Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("Text").GetComponent<Text>();
+		Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
 		Renderer splotchcolor = targeting.transform.FindChild("Canvas1").FindChild ("blood_splotch").GetComponent<Renderer>();
 		dmgtxt.text = Mathf.RoundToInt(damage).ToString();//set the text
 		
