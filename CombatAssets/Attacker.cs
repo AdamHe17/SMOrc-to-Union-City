@@ -148,10 +148,10 @@ public class Attacker : MonoBehaviour {
 		if (partynumber < 11) {
 			spot = self.transform.FindChild ("spotlight").gameObject;
 			EditOpacity (spot, 0);
-			h1 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack1").FindChild ("highlight1").gameObject;
-			h2 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack2").FindChild ("highlight2").gameObject;
-			h3 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack3").FindChild ("highlight3").gameObject;
-			h4 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack4").FindChild ("highlight4").gameObject;
+			h1 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack1").FindChild ("highlight").gameObject;
+			h2 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack2").FindChild ("highlight").gameObject;
+			h3 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack3").FindChild ("highlight").gameObject;
+			h4 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack4").FindChild ("highlight").gameObject;
 			EditOpacity (h1, 0);
 			EditOpacity (h2, 0);
 			EditOpacity (h3, 0);
