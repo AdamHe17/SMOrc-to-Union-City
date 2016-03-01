@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Attacker : MonoBehaviour {
 	
@@ -61,7 +62,7 @@ public class Attacker : MonoBehaviour {
 				Debug.Log (count);
 				if (count > 15)
 				{
-					
+
 				}
 				if(count == 90){//when the animation phase is over
 					displayingDamage = false;
