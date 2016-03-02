@@ -28,7 +28,7 @@ public class ExploreScript: MonoBehaviour {
     GameObject sun;
     GameObject sky;
     SpriteRenderer skycolor;
-    float speedmultiplier;
+    float timewarp;
     bool dayover = false;
 
     // Use this for initialization
@@ -78,7 +78,7 @@ public class ExploreScript: MonoBehaviour {
             sun = GameObject.Find("Sun");
             sky = GameObject.Find("sky");
             skycolor = sky.transform.GetComponent<SpriteRenderer>();
-            speedmultiplier = 15f;
+            timewarp = 1f;
        // }
     }
 
@@ -92,53 +92,53 @@ public class ExploreScript: MonoBehaviour {
 
                 if (sun.transform.position.x <= -7.5)
                 {
-                    CustomTransUp(sun, 0.1f * speedmultiplier);
+                    CustomTransUp(sun, 0.1f * timewarp);
                 }
                 else if (sun.transform.position.x <= -7)
                 {
-                    CustomTransUp(sun, 0.05f * speedmultiplier);
+                    CustomTransUp(sun, 0.05f * timewarp);
                 }
                 else if (sun.transform.position.x <= -6.5)
                 {
-                    CustomTransUp(sun, 0.03f * speedmultiplier);
+                    CustomTransUp(sun, 0.03f * timewarp);
                 }
                 else if (sun.transform.position.x <= 0)
                 {
-                    CustomTransUp(sun, 0.005f * speedmultiplier);
+                    CustomTransUp(sun, 0.005f * timewarp);
                 }
                 else if (sun.transform.position.x <= 6.5)
                 {
-                    CustomTransDown(sun, 0.005f * speedmultiplier);
+                    CustomTransDown(sun, 0.005f * timewarp);
                 }
                 else if (sun.transform.position.x <= 7)
                 {
-                    CustomTransDown(sun, 0.03f * speedmultiplier);
+                    CustomTransDown(sun, 0.03f * timewarp);
                 }
                 else if (sun.transform.position.x <= 7.5)
                 {
-                    CustomTransDown(sun, 0.05f * speedmultiplier);
+                    CustomTransDown(sun, 0.05f * timewarp);
                 }
                 else
                 {
-                    CustomTransDown(sun, 0.1f * speedmultiplier);
+                    CustomTransDown(sun, 0.1f * timewarp);
                 }
 
                 if (sun.transform.position.x <= 3)
                 {
                     //Debug.Log("Before Adjust r: " + skycolor.color.r + " g: " + skycolor.color.g + " b: " + skycolor.color.b);
-                    skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .005f * speedmultiplier * -0.07059f, skycolor.color.g + Time.fixedDeltaTime * .005f * speedmultiplier * .596078f, skycolor.color.b + Time.fixedDeltaTime * .005f * speedmultiplier * 0.321569f);
+                    skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .005f * timewarp * -0.07059f, skycolor.color.g + Time.fixedDeltaTime * .005f * timewarp * .596078f, skycolor.color.b + Time.fixedDeltaTime * .005f * timewarp * 0.321569f);
                     //Debug.Log("After Adjust r: " + skycolor.color.r + " g: " + skycolor.color.g + " b: " + skycolor.color.b);
                 }
                 else
                 {
                     //Color skycolor = sky.transform.GetComponent<SpriteRenderer>().color;
-                    skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .01f * speedmultiplier * 0.160784f, skycolor.color.g + Time.fixedDeltaTime * .01f * speedmultiplier * -.86275f, skycolor.color.b + Time.fixedDeltaTime * .01f * speedmultiplier * -0.61961f);
+                    skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .01f * timewarp * 0.160784f, skycolor.color.g + Time.fixedDeltaTime * .01f * timewarp * -.86275f, skycolor.color.b + Time.fixedDeltaTime * .01f * timewarp * -0.61961f);
                 }
             }
             //moving the sun left/right
             if (sun.transform.position.x <= 8.43)
             {
-                sun.transform.Translate(Vector2.right * Time.fixedDeltaTime * 0.03f * speedmultiplier);
+                sun.transform.Translate(Vector2.right * Time.fixedDeltaTime * 0.03f * timewarp);
 
             }
             else

@@ -222,17 +222,17 @@ public class Attacker : MonoBehaviour {
             spot2 = self.transform.FindChild("arrow_spotlight").gameObject;
             EditOpacity(spot, 0);
             EditOpacity(spot2, 0);
-            h1 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack1").FindChild("highlight").gameObject;
-            h2 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack2").FindChild("highlight").gameObject;
-            h3 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack3").FindChild("highlight").gameObject;
-            h4 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack4").FindChild("highlight").gameObject;
+            h1 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack1").FindChild("highlight").gameObject;
+            h2 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack2").FindChild("highlight").gameObject;
+            h3 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack3").FindChild("highlight").gameObject;
+            h4 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack4").FindChild("highlight").gameObject;
             //Text bitchplease = self.transform.FindChild("Canvas1").FindChild("health").gameObject.transform.GetComponent<Text>();
             
             stamtxt = self.transform.FindChild("Canvas1").FindChild("stam_text").GetComponent<Text>();
-            EditOpacity(h1, 0);
-            EditOpacity(h2, 0);
-            EditOpacity(h3, 0);
-            EditOpacity(h4, 0);
+            EditOpacity2(h1, 0);
+            EditOpacity2(h2, 0);
+            EditOpacity2(h3, 0);
+            EditOpacity2(h4, 0);
             //health_txt = self.transform.FindChild("Canvas1").FindChild("health_text").gameObject;
             //stam_txt = self.transform.FindChild("Canvas1").FindChild("stam_text").gameeObject;
             
@@ -309,10 +309,10 @@ public class Attacker : MonoBehaviour {
 			opacity = 0;
 			EditOpacity (spot, 0);
 			EditOpacity(spot2, 0);
-			EditOpacity (h1, 0);
-			EditOpacity (h2, 0);
-			EditOpacity (h3, 0);
-			EditOpacity (h4, 0);
+			EditOpacity2 (h1, 0);
+			EditOpacity2 (h2, 0);
+			EditOpacity2 (h3, 0);
+			EditOpacity2 (h4, 0);
 		}
 	}
 	
@@ -376,12 +376,20 @@ public class Attacker : MonoBehaviour {
 	
 	void EditOpacity(GameObject obj,float opac)//only works for GAMEOBJECTS
 	{
-		obj.GetComponent<Renderer>().material.color = new Vector4 (obj.GetComponent<Renderer> ().material.color.r,//keep original color
-																   obj.GetComponent<Renderer> ().material.color.g,
-																   obj.GetComponent<Renderer> ().material.color.b,
+		obj.GetComponent<Renderer>().material.color = new Vector4 (obj.GetComponent<Renderer>().material.color.r,//keep original color
+                                                                   obj.GetComponent<Renderer>().material.color.g,
+                                                                   obj.GetComponent<Renderer>().material.color.b,
 																   opac/255);
 	}
-	
+    void EditOpacity2(GameObject obj, float opac)//only works for GAMEOBJECTS
+    {
+        obj.GetComponent<Image>().color = new Vector4(obj.GetComponent<Image>().color.r,//keep original color
+                                                                   obj.GetComponent<Image>().color.g,
+                                                                   obj.GetComponent<Image>().color.b,
+                                                                   opac / 255);
+    }
+
+
 	//these stats are used to change hp,stamina,readiness etc.
 	float minDamage;
 	float maxDamage;
@@ -394,51 +402,51 @@ public class Attacker : MonoBehaviour {
 		if (man.targeter == partynumber) {
 			if (attackno == curAttack) {//deselecting an attack
 				man.clickable = false;
-				EditOpacity (h1, 0);
-				EditOpacity (h2, 0);
-				EditOpacity (h3, 0);
-				EditOpacity (h4, 0);
+				EditOpacity2 (h1, 0);
+				EditOpacity2 (h2, 0);
+				EditOpacity2 (h3, 0);
+				EditOpacity2 (h4, 0);
 				curAttack = 0;
 				return;
 			} 
 			switch (attackno) {
 			case 1:
-				EditOpacity (h1, 255);
-				EditOpacity (h2, 0);
-				EditOpacity (h3, 0);
-				EditOpacity (h4, 0);
-				AttackStats = transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack1").GetComponent<Attack> ();
+				EditOpacity2 (h1, 255);
+				EditOpacity2 (h2, 0);
+				EditOpacity2 (h3, 0);
+				EditOpacity2 (h4, 0);
+				AttackStats = transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack1").GetComponent<Attack> ();
 				break;
 			case 2:
-				EditOpacity (h1, 0);
-				EditOpacity (h2, 255);
-				EditOpacity (h3, 0);
-				EditOpacity (h4, 0);
-				AttackStats = transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack2").GetComponent<Attack> ();
+				EditOpacity2 (h1, 0);
+				EditOpacity2 (h2, 255);
+				EditOpacity2 (h3, 0);
+				EditOpacity2 (h4, 0);
+				AttackStats = transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack2").GetComponent<Attack> ();
 				break;
 			case 3:
-				EditOpacity (h1, 0);
-				EditOpacity (h2, 0);
-				EditOpacity (h3, 255);
-				EditOpacity (h4, 0);
-				AttackStats = transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack3").GetComponent<Attack> ();
+				EditOpacity2 (h1, 0);
+				EditOpacity2 (h2, 0);
+				EditOpacity2 (h3, 255);
+				EditOpacity2 (h4, 0);
+				AttackStats = transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack3").GetComponent<Attack> ();
 				break;
 			case 4:
-				EditOpacity (h1, 0);
-				EditOpacity (h2, 0);
-				EditOpacity (h3, 0);
-				EditOpacity (h4, 255);
-				AttackStats = transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack4").GetComponent<Attack> ();
+				EditOpacity2 (h1, 0);
+				EditOpacity2 (h2, 0);
+				EditOpacity2 (h3, 0);
+				EditOpacity2 (h4, 255);
+				AttackStats = transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack4").GetComponent<Attack> ();
 				break;
 			}
 			staminaCost = AttackStats.staminaCost;
 			if (cur_stamina < staminaCost)//don't have the stamina, don't select
 			{
 				man.clickable = false;
-				EditOpacity (h1, 0);
-				EditOpacity (h2, 0);
-				EditOpacity (h3, 0);
-				EditOpacity (h4, 0);
+				EditOpacity2 (h1, 0);
+				EditOpacity2 (h2, 0);
+				EditOpacity2 (h3, 0);
+				EditOpacity2 (h4, 0);
 				curAttack = 0;
 				return;
 			}
