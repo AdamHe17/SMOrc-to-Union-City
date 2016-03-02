@@ -10,7 +10,7 @@ public class Attacker : MonoBehaviour {
 	GameObject spot;//spotlight
 	GameObject spot2;//arrow_spotlight
 	
-	public GameObject self;//references some dude
+	GameObject self;//references some dude
 	
 	GameObject h1;//attack
 	GameObject h2;//border
@@ -19,7 +19,7 @@ public class Attacker : MonoBehaviour {
 	
 	int count;//used for animating attack
 	bool displayingDamage;//when true, we are displaying damage and count increments
-	public GameObject damageText;//used for changing
+	GameObject damageText;//used for changing
 	GameObject damageSplash;//the opacity of damage
 	//Text damagetxt;//used for editing the text when doing damage
 	//GameObject health_txt;

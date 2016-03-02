@@ -12,14 +12,21 @@ public class ExploreBuildingScript: ExploreScript {
         exploreEvent.alpha = 1;
         ClearEvents();
 
-        event1.GetComponentInChildren<Text>().text = "1. There is a building far away. Go inside and look for supplies. (-1 AP)";
-        event1.onClick.AddListener(() => InsideEvent());
+        ev.GetComponentInChildren<Text>().text = "You see an abandonned building off in the distance. It looks like it might have once been a factory";
+        
 
-        event2.GetComponentInChildren<Text>().text = "2. Check the surrounding first. Have to be careful. (-1 AP)";
-        event2.onClick.AddListener(() => OutsideEvent());
+        event1.GetComponentInChildren<Text>().text = "1. Send a search party over (-3 AP)";
+        event1.onClick.AddListener(() => InsideEvent(3));
+        if (actionCount < 3)
+            event1.interactable = false;
 
-        event5.GetComponentInChildren<Text>().text = "3. nah";
-        event5.onClick.AddListener(() => Confirmed());
+        event2.GetComponentInChildren<Text>().text = "2. Move the caravan there (-4 AP)";
+        event2.onClick.AddListener(() => OutsideEvent(4));
+        if (actionCount < 4)
+            event1.interactable = false;
+
+        event3.GetComponentInChildren<Text>().text = "3. Stay here";
+        event3.onClick.AddListener(() => Confirmed());
     }
 
     void Inside() {
@@ -31,14 +38,14 @@ public class ExploreBuildingScript: ExploreScript {
         }
 
         event1.GetComponentInChildren<Text>().text = "1. Venture further into the building. (-1 AP)";
-        event1.onClick.AddListener(() => InsideEvent());
+        event1.onClick.AddListener(() => InsideEvent(1));
 
         event5.GetComponentInChildren<Text>().text = "2. Leave this building.";
         event5.onClick.AddListener(() => Confirmed());
     }
     
-    void InsideEvent() {
-        LowerAP(1);
+    void InsideEvent(int APCost) {
+        LowerAP(APCost);
         ClearEvents();
         int check = rnd.Next(1, 101);
 
@@ -69,14 +76,15 @@ public class ExploreBuildingScript: ExploreScript {
         }
 
         event1.GetComponentInChildren<Text>().text = "1. Go inside and look for supplies. (-1 AP)";
-        event1.onClick.AddListener(() => InsideEvent());
+        event1.onClick.AddListener(() => InsideEvent(1));
 
         event5.GetComponentInChildren<Text>().text = "2. Leave this area.";
         event5.onClick.AddListener(() => Confirmed());
     }
 
-    void OutsideEvent() {
-        LowerAP(1);
+    void OutsideEvent(int APCost)
+    {
+        LowerAP(APCost);
         ClearEvents();
         int check = rnd.Next(1, 101);
 

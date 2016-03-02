@@ -18,6 +18,7 @@ public class ExploreScript: MonoBehaviour {
 
     protected CanvasGroup exploreEvent;
     protected Button event1, event2, event3, event4, event5;
+    protected GameObject ev;
 
     protected System.Random rnd = new System.Random();
 
@@ -25,6 +26,7 @@ public class ExploreScript: MonoBehaviour {
 
     GameObject sun;
     GameObject sky;
+    SpriteRenderer skycolor;
     bool dayover = false;
 
     // Use this for initialization
@@ -56,6 +58,7 @@ public class ExploreScript: MonoBehaviour {
 
         exploreEvent = GameObject.Find("ExploreEvent").GetComponent<CanvasGroup>();
         exploreEvent.alpha = 0;
+        ev = GameObject.Find("Event");
         event1 = GameObject.Find("Event1").GetComponent<Button>();
         event2 = GameObject.Find("Event2").GetComponent<Button>();
         event3 = GameObject.Find("Event3").GetComponent<Button>();
@@ -64,46 +67,65 @@ public class ExploreScript: MonoBehaviour {
 
         sun = GameObject.Find("Sun");
         sky = GameObject.Find("sky");
+        skycolor = sky.transform.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update() {
-        //moving the sun up/down
-        float speedmultiplier = 5f;
-        if (sun.transform.position.x <= -7.5){
-            CustomTransUp(sun, 0.1f * speedmultiplier);
-        }
-        else if (sun.transform.position.x <= -7)
+        float speedmultiplier = 15f;
+        if (!dayover)
         {
-            CustomTransUp(sun, 0.05f * speedmultiplier);
-        }
-        else if (sun.transform.position.x <= -6.5)
-        {
-            CustomTransUp(sun, 0.03f * speedmultiplier);
-        }
-        else if (sun.transform.position.x <= 0)
-        {
-            CustomTransUp(sun, 0.005f * speedmultiplier);
-        } 
-        else if (sun.transform.position.x <= 6.5) 
-        {
-            CustomTransDown(sun, 0.005f * speedmultiplier);
-        }
-        else if (sun.transform.position.x <= 7)
-        {
-            CustomTransDown(sun, 0.03f * speedmultiplier);
-        }
-        else if (sun.transform.position.x <= 7.5)
-        {
-            CustomTransDown(sun, 0.05f * speedmultiplier);
-        }
-        else 
-        {
-            CustomTransDown(sun, 0.1f * speedmultiplier);
-        }
+            //moving the sun up/down
+            
+            if (sun.transform.position.x <= -7.5)
+            {
+                CustomTransUp(sun, 0.1f * speedmultiplier);
+            }
+            else if (sun.transform.position.x <= -7)
+            {
+                CustomTransUp(sun, 0.05f * speedmultiplier);
+            }
+            else if (sun.transform.position.x <= -6.5)
+            {
+                CustomTransUp(sun, 0.03f * speedmultiplier);
+            }
+            else if (sun.transform.position.x <= 0)
+            {
+                CustomTransUp(sun, 0.005f * speedmultiplier);
+            }
+            else if (sun.transform.position.x <= 6.5)
+            {
+                CustomTransDown(sun, 0.005f * speedmultiplier);
+            }
+            else if (sun.transform.position.x <= 7)
+            {
+                CustomTransDown(sun, 0.03f * speedmultiplier);
+            }
+            else if (sun.transform.position.x <= 7.5)
+            {
+                CustomTransDown(sun, 0.05f * speedmultiplier);
+            }
+            else
+            {
+                CustomTransDown(sun, 0.1f * speedmultiplier);
+            }
 
+            if (sun.transform.position.x <= 3)
+            {
+                //Debug.Log("Before Adjust r: " + skycolor.color.r + " g: " + skycolor.color.g + " b: " + skycolor.color.b);
+                skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .005f * speedmultiplier * -0.07059f, skycolor.color.g + Time.fixedDeltaTime * .005f * speedmultiplier * .596078f, skycolor.color.b + Time.fixedDeltaTime * .005f * speedmultiplier * 0.321569f);
+                //Debug.Log("After Adjust r: " + skycolor.color.r + " g: " + skycolor.color.g + " b: " + skycolor.color.b);
+            }
+            else
+            {
+                //Color skycolor = sky.transform.GetComponent<SpriteRenderer>().color;
+                skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .01f * speedmultiplier * 0.160784f, skycolor.color.g + Time.fixedDeltaTime * .01f * speedmultiplier * -.86275f, skycolor.color.b + Time.fixedDeltaTime * .01f * speedmultiplier * -0.61961f);
+            }
+        }
+        //moving the sun left/right
         if (sun.transform.position.x <= 8.43) {
             sun.transform.Translate(Vector2.right * Time.fixedDeltaTime * 0.03f * speedmultiplier);
+            
         }
         else {
             if (!dayover) {
@@ -113,6 +135,7 @@ public class ExploreScript: MonoBehaviour {
         }
     }
 
+    //these are for moving the sun up and down
     void CustomTransUp(GameObject obj, float speed){
         obj.transform.Translate(Vector2.up * Time.fixedDeltaTime * speed);
     }
@@ -120,6 +143,8 @@ public class ExploreScript: MonoBehaviour {
     {
         obj.transform.Translate(Vector2.down * Time.fixedDeltaTime * speed);
     }
+
+
 
     void onAwake() {
         DontDestroyOnLoad(this);
@@ -176,18 +201,23 @@ public class ExploreScript: MonoBehaviour {
     protected void ClearEvents() {
         event1.GetComponentInChildren<Text>().text = "";
         event1.GetComponent<Button>().onClick.RemoveAllListeners();
+        event1.interactable = true;
 
         event2.GetComponentInChildren<Text>().text = "";
         event2.GetComponent<Button>().onClick.RemoveAllListeners();
+        event2.interactable = true;
 
         event3.GetComponentInChildren<Text>().text = "";
         event3.GetComponent<Button>().onClick.RemoveAllListeners();
+        event3.interactable = true;
 
         event4.GetComponentInChildren<Text>().text = "";
         event4.GetComponent<Button>().onClick.RemoveAllListeners();
+        event4.interactable = true;
 
         event5.GetComponentInChildren<Text>().text = "";
         event5.GetComponent<Button>().onClick.RemoveAllListeners();
+        event5.interactable = true;
     }
 
     protected void Confirmed() {
