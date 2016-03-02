@@ -170,7 +170,7 @@ public class Attacker : MonoBehaviour {
             h3 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack3").FindChild("highlight").gameObject;
             h4 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack4").FindChild("highlight").gameObject;
             //Text bitchplease = self.transform.FindChild("Canvas1").FindChild("health").gameObject.transform.GetComponent<Text>();
-            healthtxt = self.transform.FindChild("Canvas1").FindChild("health_text").GetComponent<Text>();
+            
             stamtxt = self.transform.FindChild("Canvas1").FindChild("stam_text").GetComponent<Text>();
             EditOpacity(h1, 0);
             EditOpacity(h2, 0);
@@ -180,7 +180,7 @@ public class Attacker : MonoBehaviour {
             //stam_txt = self.transform.FindChild("Canvas1").FindChild("stam_text").gameeObject;
             
         }
-
+        healthtxt = self.transform.FindChild("Canvas1").FindChild("health_text").GetComponent<Text>();
 		damageText = self.transform.FindChild ("Canvas1").FindChild ("dmg_text").gameObject;
 		damageSplash = self.transform.FindChild ("Canvas1").FindChild ("blood_splotch").gameObject;
 		damageText.GetComponent<Text> ().color = new Vector4 (damageText.GetComponent<Text> ().color.r, damageText.GetComponent<Text> ().color.g, damageText.GetComponent<Text> ().color.b, 0);
@@ -261,12 +261,12 @@ public class Attacker : MonoBehaviour {
 			Die ();
 			cur_health = 0;
 		}
-        if (partynumber < 11)
-        {
+        //if (partynumber < 11)
+        //{
             string one = Mathf.Floor(cur_health).ToString();
             string two = max_health.ToString();
             healthtxt.text = one + "/" + two;
-        }
+       // }
             
 		SetBar (healthBar, cur_health/max_health);
 	}
@@ -280,7 +280,7 @@ public class Attacker : MonoBehaviour {
 				cur_stamina = 0;
             if (partynumber < 11)
             {
-                string one = Mathf.Floor(cur_stamina).ToString();
+                string one = Mathf.Floor(cur_stamina    ).ToString();
                 string two = max_stamina.ToString();
                 stamtxt.text = one + "/" + two;
             }
