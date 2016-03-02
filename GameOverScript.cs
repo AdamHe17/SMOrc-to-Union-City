@@ -11,6 +11,7 @@ public class GameOverScript : MonoBehaviour {
 	void Start () {
         again = GameObject.Find("AgainBtn").GetComponent<Button>();
         again.onClick.AddListener(() => SceneManager.LoadScene("ExploreScene"));
+        //this doesn't reset DataScript b/c it can't be destroyed.
 	}
 	
 	// Update is called once per frame

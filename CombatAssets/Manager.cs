@@ -9,6 +9,5 @@ public class Manager : MonoBehaviour {
 	public int targeting;
 	public int deathcount;
     public int playerdeaths;
-	//public int[] Members;//0 DNE, 1 Alive, 2, Dead
 
 }
