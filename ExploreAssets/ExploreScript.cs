@@ -29,6 +29,7 @@ public class ExploreScript: MonoBehaviour {
     GameObject sky;
     SpriteRenderer skycolor;
     float timewarp;
+    bool fastforward = false;
     bool dayover = false;
 
     // Use this for initialization
@@ -146,6 +147,11 @@ public class ExploreScript: MonoBehaviour {
                 if (!dayover)
                 {
                     dayover = true;
+                    if (fastforward)
+                    {
+                        SceneManager.LoadScene("CombatScene");
+                    }
+                    else
                     EndDay(0);
                 }
             }
@@ -184,19 +190,22 @@ public class ExploreScript: MonoBehaviour {
         else if (type == 1) {
             exploreEvent.alpha = 1;
             oneline.text = "You ran out of Action Points";
-
-            event1.GetComponentInChildren<Text>().text = "1. End the day";
-            event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
+            timewarp = 50f;
+            fastforward = true;
+            //event1.GetComponentInChildren<Text>().text = "1. End the day";
+            //event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
         }
         else {
             exploreEvent.alpha = 1;
             oneline.text = "Prepare for the night";
 
-            event2.GetComponentInChildren<Text>().text = "1. Changed my mind";
+            event2.GetComponentInChildren<Text>().text = "2. Continue exploring";
             event2.onClick.AddListener(() => Confirmed());
 
-            event1.GetComponentInChildren<Text>().text = "2. Ready";
-            event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
+            event1.GetComponentInChildren<Text>().text = "1. Brave the night";
+            event1.onClick.AddListener(() => timewarp = 50f);
+            event1.onClick.AddListener(() => fastforward = true);
+            event1.onClick.AddListener(() => Confirmed());
         }
     }
 
