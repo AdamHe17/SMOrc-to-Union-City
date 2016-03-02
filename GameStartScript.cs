@@ -3,15 +3,16 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameOverScript : MonoBehaviour {
+public class GameStartScript : MonoBehaviour {
 
 	Button again;
 
 	// Use this for initialization
 	void Start () {
 		again = GameObject.Find("AgainBtn").GetComponent<Button>();
-		again.onClick.AddListener(() => SceneManager.LoadScene("Play"));
-		//this doesn't reset DataScript b/c it can't be destroyed.
+		again.onClick.AddListener(() => SceneManager.LoadScene("ExploreScene"));
+		GameObject data = GameObject.Find("PersistentData");
+		Destroy(data);
 	}
 	
 	// Update is called once per frame
