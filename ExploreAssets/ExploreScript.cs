@@ -24,6 +24,7 @@ public class ExploreScript: MonoBehaviour {
     GameObject building, house, store;
 
     GameObject sun;
+    GameObject sky;
     bool dayover = false;
 
     // Use this for initialization
@@ -62,12 +63,47 @@ public class ExploreScript: MonoBehaviour {
         event5 = GameObject.Find("Event5").GetComponent<Button>();
 
         sun = GameObject.Find("Sun");
+        sky = GameObject.Find("sky");
     }
 
     // Update is called once per frame
     void Update() {
-        if (sun.transform.position.x <= 7.68) {
-            sun.transform.Translate(Vector2.right * Time.fixedDeltaTime * 0.03f);
+        //moving the sun up/down
+        float speedmultiplier = 5f;
+        if (sun.transform.position.x <= -7.5){
+            CustomTransUp(sun, 0.1f * speedmultiplier);
+        }
+        else if (sun.transform.position.x <= -7)
+        {
+            CustomTransUp(sun, 0.05f * speedmultiplier);
+        }
+        else if (sun.transform.position.x <= -6.5)
+        {
+            CustomTransUp(sun, 0.03f * speedmultiplier);
+        }
+        else if (sun.transform.position.x <= 0)
+        {
+            CustomTransUp(sun, 0.005f * speedmultiplier);
+        } 
+        else if (sun.transform.position.x <= 6.5) 
+        {
+            CustomTransDown(sun, 0.005f * speedmultiplier);
+        }
+        else if (sun.transform.position.x <= 7)
+        {
+            CustomTransDown(sun, 0.03f * speedmultiplier);
+        }
+        else if (sun.transform.position.x <= 7.5)
+        {
+            CustomTransDown(sun, 0.05f * speedmultiplier);
+        }
+        else 
+        {
+            CustomTransDown(sun, 0.1f * speedmultiplier);
+        }
+
+        if (sun.transform.position.x <= 8.43) {
+            sun.transform.Translate(Vector2.right * Time.fixedDeltaTime * 0.03f * speedmultiplier);
         }
         else {
             if (!dayover) {
@@ -75,6 +111,14 @@ public class ExploreScript: MonoBehaviour {
                 EndDay(0);
             }
         }
+    }
+
+    void CustomTransUp(GameObject obj, float speed){
+        obj.transform.Translate(Vector2.up * Time.fixedDeltaTime * speed);
+    }
+    void CustomTransDown(GameObject obj, float speed)
+    {
+        obj.transform.Translate(Vector2.down * Time.fixedDeltaTime * speed);
     }
 
     void onAwake() {
