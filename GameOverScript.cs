@@ -14,7 +14,7 @@ public class GameOverScript : MonoBehaviour {
 		//this doesn't reset DataScript b/c it can't be destroyed.
 	}
 	
-	// Update is called once per frame
+	// Update is called once pe
 	void Update () {
 	
 	}
