@@ -8,9 +8,9 @@ public class Attacker : MonoBehaviour {
 	GameObject manager;
 	Manager man;
 	GameObject spot;//spotlight
-    GameObject spot2;//arrow_spotlight
+	GameObject spot2;//arrow_spotlight
 	
-	GameObject self;//references some dude
+	public GameObject self;//references some dude
 	
 	GameObject h1;//attack
 	GameObject h2;//border
@@ -19,16 +19,18 @@ public class Attacker : MonoBehaviour {
 	
 	int count;//used for animating attack
 	bool displayingDamage;//when true, we are displaying damage and count increments
-	GameObject damageText;//used for changing
+	public GameObject damageText;//used for changing
 	GameObject damageSplash;//the opacity of damage
-	Text damagetxt;//used for editing the text when doing damage
-    GameObject health_txt;
-    GameObject stam_txt;
+	//Text damagetxt;//used for editing the text when doing damage
+	//GameObject health_txt;
+    Text healthtxt;
+	//GameObject stam_txt;
+    Text stamtxt;
 	
 	float opacity;//used for highlight
 	float opacity_step;
-    float displacement;
-    float displacement_step;
+	float displacement;
+	float displacement_step;
 	
 	public bool dead;
 	
@@ -102,23 +104,23 @@ public class Attacker : MonoBehaviour {
 					opacity = 255;
 					opacity_step = -2;
 				}
-                if (displacement == 0)
-                {
-                    displacement_step = 0.003f;
-                }
-                if (displacement < -0.025)
-                    displacement_step = 0.0015f;
-                if (displacement > 0.025)
-                    displacement_step = -0.0015f;
-                displacement += displacement_step;
+				if (displacement == 0)
+				{
+					displacement_step = 0.003f;
+				}
+				if (displacement < -0.025)
+					displacement_step = 0.0015f;
+				if (displacement > 0.025)
+					displacement_step = -0.0015f;
+				displacement += displacement_step;
 				opacity += opacity_step;
-                if (partynumber < 11)
-                {
-                    EditOpacity(spot, opacity);
-                    EditOpacity(spot2, opacity);
-                    spot2.transform.position = new Vector3(spot2.transform.position.x, spot2.transform.position.y + displacement, spot2.transform.position.z);
-                }
-                
+				if (partynumber < 11)
+				{
+					EditOpacity(spot, opacity);
+					EditOpacity(spot2, opacity);
+					spot2.transform.position = new Vector3(spot2.transform.position.x, spot2.transform.position.y + displacement, spot2.transform.position.z);
+				}
+				
 			}
 		}else {//if you are dead you will shrink
 			self.transform.localScale = new Vector3(self.transform.localScale.x*.98f, self.transform.localScale.y*.96f,1f);
@@ -134,9 +136,7 @@ public class Attacker : MonoBehaviour {
 		opacity = 0;
 		manager = GameObject.Find ("Manager");
 		man = manager.GetComponent<Manager> ();
-		changeHP (0);	
-		changeS (0);
-		changeR (0);
+		
 		
 		switch (partynumber) {
 		case 1:
@@ -158,31 +158,39 @@ public class Attacker : MonoBehaviour {
 			self = GameObject.Find ("dude13");
 			break;
 		}
-		
+
+        if (partynumber < 11)
+        {
+            spot = self.transform.FindChild("spotlight").gameObject;
+            spot2 = self.transform.FindChild("arrow_spotlight").gameObject;
+            EditOpacity(spot, 0);
+            EditOpacity(spot2, 0);
+            h1 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack1").FindChild("highlight").gameObject;
+            h2 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack2").FindChild("highlight").gameObject;
+            h3 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack3").FindChild("highlight").gameObject;
+            h4 = self.transform.FindChild("Canvas").FindChild("Attacks").FindChild("Attack4").FindChild("highlight").gameObject;
+            //Text bitchplease = self.transform.FindChild("Canvas1").FindChild("health").gameObject.transform.GetComponent<Text>();
+            healthtxt = self.transform.FindChild("Canvas1").FindChild("health_text").GetComponent<Text>();
+            stamtxt = self.transform.FindChild("Canvas1").FindChild("stam_text").GetComponent<Text>();
+            EditOpacity(h1, 0);
+            EditOpacity(h2, 0);
+            EditOpacity(h3, 0);
+            EditOpacity(h4, 0);
+            //health_txt = self.transform.FindChild("Canvas1").FindChild("health_text").gameObject;
+            //stam_txt = self.transform.FindChild("Canvas1").FindChild("stam_text").gameeObject;
+            
+        }
+
 		damageText = self.transform.FindChild ("Canvas1").FindChild ("dmg_text").gameObject;
 		damageSplash = self.transform.FindChild ("Canvas1").FindChild ("blood_splotch").gameObject;
 		damageText.GetComponent<Text> ().color = new Vector4 (damageText.GetComponent<Text> ().color.r, damageText.GetComponent<Text> ().color.g, damageText.GetComponent<Text> ().color.b, 0);
-        if (partynumber < 11)
-        {
-            health_txt = self.transform.FindChild("Canvas1").FindChild("health_text").gameObject;
-            stam_txt = self.transform.FindChild("Canvas1").FindChild("stam_text").gameObject;
-        }
+
 		EditOpacity (damageSplash, 0);
 		
-		if (partynumber < 11) {
-			spot = self.transform.FindChild ("spotlight").gameObject;
-            spot2 = self.transform.FindChild("arrow_spotlight").gameObject;
-			EditOpacity (spot, 0);
-            EditOpacity(spot2, 0);
-			h1 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack1").FindChild ("highlight").gameObject;
-			h2 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack2").FindChild ("highlight").gameObject;
-			h3 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack3").FindChild ("highlight").gameObject;
-			h4 = self.transform.FindChild ("Canvas").FindChild ("Attacks").FindChild ("Attack4").FindChild ("highlight").gameObject;
-			EditOpacity (h1, 0);
-			EditOpacity (h2, 0);
-			EditOpacity (h3, 0);
-			EditOpacity (h4, 0);
-		}
+		
+        changeHP(0);
+        changeS(0);
+        changeR(0);
 	}
 	
 	public void Execute(){//this is only used for Player-controlled characters; called when attacking something else
@@ -220,7 +228,7 @@ public class Attacker : MonoBehaviour {
 			
 			opacity = 0;
 			EditOpacity (spot, 0);
-            EditOpacity(spot2, 0);
+			EditOpacity(spot2, 0);
 			EditOpacity (h1, 0);
 			EditOpacity (h2, 0);
 			EditOpacity (h3, 0);
@@ -253,6 +261,13 @@ public class Attacker : MonoBehaviour {
 			Die ();
 			cur_health = 0;
 		}
+        if (partynumber < 11)
+        {
+            string one = Mathf.Floor(cur_health).ToString();
+            string two = max_health.ToString();
+            healthtxt.text = one + "/" + two;
+        }
+            
 		SetBar (healthBar, cur_health/max_health);
 	}
 	
@@ -263,6 +278,12 @@ public class Attacker : MonoBehaviour {
 				cur_stamina = max_stamina;
 			if (cur_stamina < 0)
 				cur_stamina = 0;
+            if (partynumber < 11)
+            {
+                string one = Mathf.Floor(cur_stamina).ToString();
+                string two = max_stamina.ToString();
+                stamtxt.text = one + "/" + two;
+            }
 			SetBar (staminaBar, cur_stamina / max_stamina);
 		}
 	}
@@ -276,9 +297,9 @@ public class Attacker : MonoBehaviour {
 	void EditOpacity(GameObject obj,float opac)//only works for GAMEOBJECTS
 	{
 		obj.GetComponent<Renderer>().material.color = new Vector4 (obj.GetComponent<Renderer> ().material.color.r,//keep original color
-		                                                           obj.GetComponent<Renderer> ().material.color.g,
-		                                                           obj.GetComponent<Renderer> ().material.color.b,
-		                                                           opac/255);
+																   obj.GetComponent<Renderer> ().material.color.g,
+																   obj.GetComponent<Renderer> ().material.color.b,
+																   opac/255);
 	}
 	
 	//these stats are used to change hp,stamina,readiness etc.
@@ -299,7 +320,7 @@ public class Attacker : MonoBehaviour {
 				EditOpacity (h4, 0);
 				curAttack = 0;
 				return;
-			}
+			} 
 			switch (attackno) {
 			case 1:
 				EditOpacity (h1, 255);
@@ -418,7 +439,7 @@ public class Attacker : MonoBehaviour {
 		//retrieve the text and blood_splotch
 		Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
 		Renderer splotchcolor = targeting.transform.FindChild("Canvas1").FindChild ("blood_splotch").GetComponent<Renderer>();
-		dmgtxt.text = Mathf.RoundToInt(damage).ToString();//set the text
+		dmgtxt.text = Mathf.Floor(damage).ToString();//set the text
 		
 		//make them visible
 		dmgtxt.color = new Vector4(dmgtxt.color.r,dmgtxt.color.g,dmgtxt.color.b,1f);
