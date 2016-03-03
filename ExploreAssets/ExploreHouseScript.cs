@@ -48,7 +48,7 @@ public class ExploreHouseScript : ExploreScript {
         int check = rnd.Next(0, 10);
 
         if (check < 2) {
-            member1HP.text = Math.Max((int.Parse(member1HP.text) - 5), 0).ToString();
+            //member1HP.text = Math.Max((int.Parse(member1HP.text) - 5), 0).ToString();
             LowerAP(1);
             oneline.text = "jumped on by a sleeper. (-5 HP, -1 AP)";
         }
@@ -102,5 +102,9 @@ public class ExploreHouseScript : ExploreScript {
 
         event5.GetComponentInChildren<Text>().text = "1. Ok";
         event5.onClick.AddListener(() => Confirmed());
+    }
+
+    void Update()
+    {
     }
 }

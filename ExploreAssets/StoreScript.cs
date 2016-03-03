@@ -4,6 +4,19 @@ using System.Collections;
 using System;
 
 public class StoreScript : ExploreScript {
+
+    GameObject data;
+   // CanvasGroup exploreEvent;
+
+    void Awake()
+    {
+        data = GameObject.Find("PersistentData");
+        //exploreEvent = GameObject.Find("ExploreEvent").GetComponent<CanvasGroup>();
+    }
+    void Update()
+    {
+    }
+
     void OnMouseDown() {
         ExploreStore();
     }
@@ -12,29 +25,42 @@ public class StoreScript : ExploreScript {
         exploreEvent.alpha = 1;
         ClearEvents();
 
-        event1.GetComponentInChildren<Text>().text = "1. There is a store in town. Check it out.";
+        twoline.text = "There is a store in town, this merchant specializes in healing";
+
+        event1.GetComponentInChildren<Text>().text = "1. Check it out.";
         event1.onClick.AddListener(() => Store());
 
-        event2.GetComponentInChildren<Text>().text = "2. Can't really afford anything anyways";
+
+        event2.GetComponentInChildren<Text>().text = "2. Can't really afford anything anyways.";
         event2.onClick.AddListener(() => Confirmed());
     }
 
     void Store() {
         ClearEvents();
 
-        event1.GetComponentInChildren<Text>().text = "1. Sword (-10 supp, +5 atk)";
+        oneline.text = "You check out his wares";
+
+        event1.GetComponentInChildren<Text>().text = "1. Heal Player 1 (+10 HP, -1 supp)";
         event1.onClick.AddListener(() => StorePurchase(1));
+        if (DataScript.supply < 1)
+            event1.interactable = false;
 
-        event2.GetComponentInChildren<Text>().text = "2. Steel Sword (-30 supp, +20 atk)";
+        event2.GetComponentInChildren<Text>().text = "2. Heal Player 2 (+10 HP, -1 supp)";
         event2.onClick.AddListener(() => StorePurchase(2));
+        if (DataScript.supply < 1)
+            event2.interactable = false;
 
-        event3.GetComponentInChildren<Text>().text = "3. Generic Energy Bar (-4 supp, +3 AP)";
+        event3.GetComponentInChildren<Text>().text = "3. Heal Player 3 (+10 HP, -1 supp)";
         event3.onClick.AddListener(() => StorePurchase(3));
+        if (DataScript.supply < 1)
+            event3.interactable = false;
 
-        event4.GetComponentInChildren<Text>().text = "4. Poptart (-20 supp, +1 AP permanently)";
+        event4.GetComponentInChildren<Text>().text = "4. Energy Bar! (+70 Energy, -10 supp)";
         event4.onClick.AddListener(() => StorePurchase(4));
+        if (DataScript.supply < 10)
+            event4.interactable = false;
 
-        event5.GetComponentInChildren<Text>().text = "5. no money (-10 hope)";
+        event5.GetComponentInChildren<Text>().text = "5. Leave the store";
         event5.onClick.AddListener(() => Confirmed());
     }
 
@@ -45,38 +71,52 @@ public class StoreScript : ExploreScript {
 
         switch(item) {
             case 1:
+                if (sup < 1) {
+                    NotEnough();
+                }
+                else {
+                    Supply.text = (int.Parse(Supply.text) - 1).ToString();
+                    DataScript.supply -= 1;
+                    DataScript.Party[0].cur_health += 10;
+                    data.GetComponent<DataScript>().UpdateStatusBars();
+                    Confirmed();
+                }
+                break;
+            case 2:
+                if (sup < 1) {
+                    NotEnough();
+                }
+                else {
+                    Supply.text = (int.Parse(Supply.text) - 1).ToString();
+                    DataScript.supply -= 1;
+                    DataScript.Party[1].cur_health += 10;
+                    data.GetComponent<DataScript>().UpdateStatusBars();
+                    Confirmed();
+                }
+                break;
+            case 3:
+                if (sup < 1) {
+                    NotEnough();
+                }
+                else {
+                    Supply.text = (int.Parse(Supply.text) - 1).ToString();
+                    DataScript.supply -= 1;
+                    DataScript.Party[2].cur_health += 10;
+                    data.GetComponent<DataScript>().UpdateStatusBars();
+                    Confirmed();
+                }
+                break;
+            case 4:
                 if (sup < 10) {
                     NotEnough();
                 }
                 else {
                     Supply.text = (int.Parse(Supply.text) - 10).ToString();
-                    Confirmed();
-                }
-                break;
-            case 2:
-                if (sup < 30) {
-                    NotEnough();
-                }
-                else {
-                    Supply.text = (int.Parse(Supply.text) - 30).ToString();
-                    Confirmed();
-                }
-                break;
-            case 3:
-                if (sup < 4) {
-                    NotEnough();
-                }
-                else {
-                    Supply.text = (int.Parse(Supply.text) - 4).ToString();
-                    Confirmed();
-                }
-                break;
-            case 4:
-                if (sup < 20) {
-                    NotEnough();
-                }
-                else {
-                    Supply.text = (int.Parse(Supply.text) - 20).ToString();
+                    DataScript.supply -= 10;
+                    DataScript.Party[0].cur_stamina += 70;
+                    DataScript.Party[1].cur_stamina += 70;
+                    DataScript.Party[2].cur_stamina += 70;
+                    data.GetComponent<DataScript>().UpdateStatusBars();
                     Confirmed();
                 }
                 break;

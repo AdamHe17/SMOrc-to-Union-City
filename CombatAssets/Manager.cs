@@ -8,6 +8,6 @@ public class Manager : MonoBehaviour {
 	public int targeter;
 	public int targeting;
 	public int deathcount;
-    public int playerdeaths;
+	public int playerdeaths;
 
 }

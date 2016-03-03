@@ -14,12 +14,12 @@ public class ExploreScript: MonoBehaviour {
     protected static int actionCount;
     protected static int actionPointLimit = 5;
 
-    public static Text member1HP, Supply;
+    protected static Text member1HP, Supply;
 
     protected CanvasGroup exploreEvent;
     protected Button event1, event2, event3, event4, event5;
     protected GameObject ev;
-    protected Text oneline, twoline, threeline;
+    public Text oneline, twoline, threeline;
 
     protected System.Random rnd = new System.Random();
 
@@ -43,13 +43,19 @@ public class ExploreScript: MonoBehaviour {
             house = GameObject.Find("House");
             store = GameObject.Find("Store");
 
+            sun = GameObject.Find("Sun");
+            //Debug.Log(sun);
+            sky = GameObject.Find("sky");
+
+            skycolor = sky.transform.GetComponent<SpriteRenderer>();
+
             endDayButton = GameObject.Find("EndDayButton").GetComponent<Button>();
             endDayButton.onClick.AddListener(() => EndDay(2));
 
-            Image member1 = GameObject.Find("Member1").GetComponent<Image>();
-            member1HP = member1.GetComponentsInChildren<Text>()[3];
-
-            member1HP.text = Math.Ceiling(DataScript.Party[0].cur_health).ToString();
+            //Image member1 = GameObject.Find("Member1").GetComponent<Image>();
+            //member1HP = member1.GetComponentsInChildren<Text>()[3];
+        
+            //member1HP.text = Math.Ceiling(DataScript.Party[0].cur_health).ToString();
             //Debug.Log(DataScript.Party[0].cur_health);
             //Debug.Log(DataScript.p1hp);
             Supply = GameObject.Find("SupplyValue").GetComponent<Text>();
@@ -76,10 +82,12 @@ public class ExploreScript: MonoBehaviour {
             event4 = GameObject.Find("Event4").GetComponent<Button>();
             event5 = GameObject.Find("Event5").GetComponent<Button>();
 
+            
+            timewarp = 1f;
             sun = GameObject.Find("Sun");
             sky = GameObject.Find("sky");
+
             skycolor = sky.transform.GetComponent<SpriteRenderer>();
-            timewarp = 1f;
        // }
     }
 
@@ -87,6 +95,10 @@ public class ExploreScript: MonoBehaviour {
     void Update() {
         //if (transform.position.x == 0 && transform.position.y == 0)
        // {
+        //sun = GameObject.Find("Sun");
+        //sky = GameObject.Find("sky");
+        //Debug.Log(sun);
+        //skycolor = sky.transform.GetComponent<SpriteRenderer>();
             if (!dayover)
             {
                 //moving the sun up/down
@@ -174,8 +186,9 @@ public class ExploreScript: MonoBehaviour {
     }
 
     protected void EndDay(int type) {
+        Debug.Log(fastforward);
         // update persistent data
-        //DataScript.p1hp = (int.Parse(member1HP.text));
+        //DataScript.p1hp = (int.Parse(member1HP.text
         DataScript.supply = (int.Parse(Supply.text));
 
         // 0 for timeout, 1 for no ap
@@ -186,16 +199,19 @@ public class ExploreScript: MonoBehaviour {
 
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
             event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
+            SceneManager.LoadScene("CombatScene");
         }
         else if (type == 1) {
             exploreEvent.alpha = 1;
             oneline.text = "You ran out of Action Points";
-            timewarp = 50f;
+            timewarp = 250f;
+            Debug.Log(timewarp);
             fastforward = true;
+            SceneManager.LoadScene("CombatScene");
             //event1.GetComponentInChildren<Text>().text = "1. End the day";
             //event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
         }
-        else {
+        else /*if(!fastforward)*/{
             exploreEvent.alpha = 1;
             oneline.text = "Prepare for the night";
 
@@ -203,9 +219,10 @@ public class ExploreScript: MonoBehaviour {
             event2.onClick.AddListener(() => Confirmed());
 
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
-            event1.onClick.AddListener(() => timewarp = 50f);
+            event1.onClick.AddListener(() => timewarp = 250f);
             event1.onClick.AddListener(() => fastforward = true);
             event1.onClick.AddListener(() => Confirmed());
+            event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
         }
     }
 

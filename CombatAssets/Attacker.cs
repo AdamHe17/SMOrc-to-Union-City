@@ -89,17 +89,17 @@ public class Attacker : MonoBehaviour {
                 }
                 else if (count < bench[2])//start decrementing health
 				{
-                    if (partynumber < 11)
-                    {
+                    //if (partynumber < 11)
+                    //{
                         targeting.GetComponent<Attacker>().changeHP(Ddamage);
                         targeting.GetComponent<Attacker>().changeR(Dready1);
-                    }
-                    else
-                    {
-                        Attacker att = targeting.GetComponent<Attacker>();
-                        att.changeHP (Ddamage);
-                        att.changeR (Dready1);
-                    }
+                    //}
+                    //else
+                    //{
+                      //  Attacker att = targeting.GetComponent<Attacker>();
+                        //att.changeHP (Ddamage);
+                        //att.changeR (Dready1);
+                   // }
 				}
                 else if (count < bench[3])//start reducing the size
                 {
@@ -128,7 +128,7 @@ public class Attacker : MonoBehaviour {
                     dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, dmgtxt.color.a * .98f);
                     splotchcolor.material.color = new Vector4(splotchcolor.material.color.r, splotchcolor.material.color.g, splotchcolor.material.color.b, splotchcolor.material.color.a * 0.98f);
                 }
-                if (count > bench[4])
+                if (count < bench[4])
                 {
                     if (partynumber < 11)
                     {
@@ -487,7 +487,7 @@ public class Attacker : MonoBehaviour {
 			break;
 		}
 		//similar to execute but no AttackStats
-		Attacker att = targeting.GetComponent<Attacker> ();
+		//Attacker att = targeting.GetComponent<Attacker> ();
 		float dmg = Random.Range (-25, -30);
         Ddamage = dmg / (bench[2] - bench[0] - 1);
         Dready1 = -hitStun / (bench[2] - bench[0] - 1);

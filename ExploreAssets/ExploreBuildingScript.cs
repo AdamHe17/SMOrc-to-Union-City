@@ -7,6 +7,9 @@ public class ExploreBuildingScript: ExploreScript {
     void OnMouseDown() {
         ExploreBuilding();
     }
+    void Update()
+    {
+    }
 
     void ExploreBuilding() {
         exploreEvent.alpha = 1;
