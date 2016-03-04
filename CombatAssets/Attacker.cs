@@ -23,9 +23,9 @@ public class Attacker : MonoBehaviour {
 	GameObject damageSplash;//the opacity of damage
 	//Text damagetxt;//used for editing the text when doing damage
 	//GameObject health_txt;
-    Text healthtxt;
+	Text healthtxt;
 	//GameObject stam_txt;
-    Text stamtxt;
+	Text stamtxt;
 	
 	float opacity;//used for highlight
 	float opacity_step;
@@ -56,9 +56,9 @@ public class Attacker : MonoBehaviour {
 	public GameObject attack3;
 	public GameObject attack4;
 
-    float Ddamage, Dready1, Dready2, Dstamina;
-    float initscalex, initscaley;
-    int[] bench = new int[5];
+	float Ddamage, Dready1, Dready2, Dstamina;
+	float initscalex, initscaley;
+	int[] bench = new int[5];
 
 
 	
@@ -72,48 +72,48 @@ public class Attacker : MonoBehaviour {
 				
 				count++;
 				//Debug.Log (count);
-                if (count < bench[0])//enlarge attacker and receiver
-                {
-                    self.transform.localScale = new Vector3(self.transform.localScale.x * 1.02f, self.transform.localScale.y * 1.02f, self.transform.localScale.z);
-                    if (targeting != self)//dont enlarge if self target
-                        targeting.transform.localScale = new Vector3(targeting.transform.localScale.x * 1.01f, targeting.transform.localScale.y * 1.01f, targeting.transform.localScale.z);
-                }
-                else if (count == bench[0])//display damage
-                {
-                    //retrieve the text and blood_splotch
-                    dmgtxt.text = Mathf.Floor(Ddamage*120).ToString();//set the text
-
-                    //make them visible
-                    dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, 1f);
-                    splotchcolor.material.color = new Vector4(splotchcolor.material.color.r, splotchcolor.material.color.g, splotchcolor.material.color.b, 1f);
-                }
-                else if (count < bench[2])//start decrementing health
+				if (count < bench[0])//enlarge attacker and receiver
 				{
-                    //if (partynumber < 11)
-                    //{
-                        targeting.GetComponent<Attacker>().changeHP(Ddamage);
-                        targeting.GetComponent<Attacker>().changeR(Dready1);
-                    //}
-                    //else
-                    //{
-                      //  Attacker att = targeting.GetComponent<Attacker>();
-                        //att.changeHP (Ddamage);
-                        //att.changeR (Dready1);
-                   // }
+					self.transform.localScale = new Vector3(self.transform.localScale.x * 1.02f, self.transform.localScale.y * 1.02f, self.transform.localScale.z);
+					if (targeting != self)//dont enlarge if self target
+						targeting.transform.localScale = new Vector3(targeting.transform.localScale.x * 1.01f, targeting.transform.localScale.y * 1.01f, targeting.transform.localScale.z);
 				}
-                else if (count < bench[3])//start reducing the size
-                {
-                    self.transform.localScale = new Vector3(self.transform.localScale.x * .99f, self.transform.localScale.y * .99f, self.transform.localScale.z);
-                    if (targeting != self)
-                        targeting.transform.localScale = new Vector3(targeting.transform.localScale.x * .995f, targeting.transform.localScale.y * .995f, targeting.transform.localScale.z);
-                }
-                else if (count == bench[3])
-                {//when the animation phase is over
+				else if (count == bench[0])//display damage
+				{
+					//retrieve the text and blood_splotch
+					dmgtxt.text = Mathf.Floor(Ddamage*120).ToString();//set the text
+
+					//make them visible
+					dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, 1f);
+					splotchcolor.material.color = new Vector4(splotchcolor.material.color.r, splotchcolor.material.color.g, splotchcolor.material.color.b, 1f);
+				}
+				else if (count < bench[2])//start decrementing health
+				{
+					//if (partynumber < 11)
+					//{
+						targeting.GetComponent<Attacker>().changeHP(Ddamage);
+						targeting.GetComponent<Attacker>().changeR(Dready1);
+					//}
+					//else
+					//{
+					  //  Attacker att = targeting.GetComponent<Attacker>();
+						//att.changeHP (Ddamage);
+						//att.changeR (Dready1);
+				   // }
+				}
+				else if (count < bench[3])//start reducing the size
+				{
+					self.transform.localScale = new Vector3(self.transform.localScale.x * .99f, self.transform.localScale.y * .99f, self.transform.localScale.z);
+					if (targeting != self)
+						targeting.transform.localScale = new Vector3(targeting.transform.localScale.x * .995f, targeting.transform.localScale.y * .995f, targeting.transform.localScale.z);
+				}
+				else if (count == bench[3])
+				{//when the animation phase is over
 					displayingDamage = false;
 					count = 0;
 					//resize to normal
 					self.transform.localScale = new Vector3 (initscalex,initscaley, self.transform.localScale.z);
-                    if(targeting != self)
+					if(targeting != self)
 					targeting.transform.localScale = new Vector3 (targeting.GetComponent<Attacker>().initscalex, targeting.GetComponent<Attacker>().initscaley, targeting.transform.localScale.z);
 					//make the splotches go away
 					dmgtxt.color = new Vector4(dmgtxt.color.r,dmgtxt.color.g,dmgtxt.color.b,0f);
@@ -123,23 +123,23 @@ public class Attacker : MonoBehaviour {
 					man.targeter = 0;
 					man.targeting = 0;
 				}
-                if (count > bench[1])
-                {
-                    dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, dmgtxt.color.a * .98f);
-                    splotchcolor.material.color = new Vector4(splotchcolor.material.color.r, splotchcolor.material.color.g, splotchcolor.material.color.b, splotchcolor.material.color.a * 0.98f);
-                }
-                if (count < bench[4])
-                {
-                    if (partynumber < 11)
-                    {
-                        changeR(Dready2);
-                        changeS(Dstamina);
-                    }
-                    else
-                    {
-                        changeR(Dready2);
-                    }
-                }
+				if (count > bench[1])
+				{
+					dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, dmgtxt.color.a * .98f);
+					splotchcolor.material.color = new Vector4(splotchcolor.material.color.r, splotchcolor.material.color.g, splotchcolor.material.color.b, splotchcolor.material.color.a * 0.98f);
+				}
+				if (count < bench[4])
+				{
+					if (partynumber < 11)
+					{
+						changeR(Dready2);
+						changeS(Dstamina);
+					}
+					else
+					{
+						changeR(Dready2);
+					}
+				}
 			}else if (!man.pause) {//game is waiting to see who goes next
 				if (tic_health != 0)
 					changeHP (tic_health);
@@ -208,65 +208,65 @@ public class Attacker : MonoBehaviour {
 			break;
 		case 12:
 			self = GameObject.Find ("dude12");
-            //Destroy(self);
+			//Destroy(self);
 			break;
 		case 13:
 			self = GameObject.Find ("dude13");
-            //Destroy(self);
+			//Destroy(self);
 			break;
 		}
 
-        if (partynumber < 11)
-        {
-            spot = self.transform.FindChild("spotlight").gameObject;
-            spot2 = self.transform.FindChild("arrow_spotlight").gameObject;
-            EditOpacity(spot, 0);
-            EditOpacity(spot2, 0);
-            h1 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack1").FindChild("highlight").gameObject;
-            h2 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack2").FindChild("highlight").gameObject;
-            h3 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack3").FindChild("highlight").gameObject;
-            h4 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack4").FindChild("highlight").gameObject;
-            //Text bitchplease = self.transform.FindChild("Canvas1").FindChild("health").gameObject.transform.GetComponent<Text>();
-            
-            stamtxt = self.transform.FindChild("Canvas1").FindChild("stam_text").GetComponent<Text>();
-            EditOpacity2(h1, 0);
-            EditOpacity2(h2, 0);
-            EditOpacity2(h3, 0);
-            EditOpacity2(h4, 0);
-            //health_txt = self.transform.FindChild("Canvas1").FindChild("health_text").gameObject;
-            //stam_txt = self.transform.FindChild("Canvas1").FindChild("stam_text").gameeObject;
-            
-        }
-        healthtxt = self.transform.FindChild("Canvas1").FindChild("health_text").GetComponent<Text>();
+		if (partynumber < 11)
+		{
+			spot = self.transform.FindChild("spotlight").gameObject;
+			spot2 = self.transform.FindChild("arrow_spotlight").gameObject;
+			EditOpacity(spot, 0);
+			EditOpacity(spot2, 0);
+			h1 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack1").FindChild("highlight").gameObject;
+			h2 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack2").FindChild("highlight").gameObject;
+			h3 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack3").FindChild("highlight").gameObject;
+			h4 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack4").FindChild("highlight").gameObject;
+			//Text bitchplease = self.transform.FindChild("Canvas1").FindChild("health").gameObject.transform.GetComponent<Text>();
+			
+			stamtxt = self.transform.FindChild("Canvas1").FindChild("stam_text").GetComponent<Text>();
+			EditOpacity2(h1, 0);
+			EditOpacity2(h2, 0);
+			EditOpacity2(h3, 0);
+			EditOpacity2(h4, 0);
+			//health_txt = self.transform.FindChild("Canvas1").FindChild("health_text").gameObject;
+			//stam_txt = self.transform.FindChild("Canvas1").FindChild("stam_text").gameeObject;
+			
+		}
+		healthtxt = self.transform.FindChild("Canvas1").FindChild("health_text").GetComponent<Text>();
 		damageText = self.transform.FindChild ("Canvas1").FindChild ("dmg_text").gameObject;
 		damageSplash = self.transform.FindChild ("Canvas1").FindChild ("blood_splotch").gameObject;
 		damageText.GetComponent<Text> ().color = new Vector4 (damageText.GetComponent<Text> ().color.r, damageText.GetComponent<Text> ().color.g, damageText.GetComponent<Text> ().color.b, 0);
 
 		EditOpacity (damageSplash, 0);
 
-        if (partynumber < 11)
-        {
-            int i = partynumber - 1;
-            if(!DataScript.Party[i].exists){
-                Destroy(self);
-            }
-            cur_health = DataScript.Party[i].cur_health;
-            max_health = DataScript.Party[i].max_health;
-            //Debug.Log(cur_stamina);
-            cur_stamina = DataScript.Party[i].cur_stamina;
-           // Debug.Log(cur_stamina);
-            max_stamina = DataScript.Party[i].max_stamina;
-        }
-        changeHP(0);
-        changeS(0);
-        changeR(0);
-        initscalex = self.transform.localScale.x;
-        initscaley = self.transform.localScale.y;
-        bench[0] = 30;
-        bench[1] = bench[0]+51;
-        bench[2] = bench[1]+70;
-        bench[3] = bench[2]+60;
-        bench[4] = bench[0] + 30;
+		if (partynumber < 11)
+		{
+			int i = partynumber - 1;
+			if(!DataScript.Party[i].exists){
+				Destroy(self);
+			}
+			cur_health = DataScript.Party[i].cur_health;
+			max_health = DataScript.Party[i].max_health;
+			//Debug.Log(cur_stamina);
+			cur_stamina = DataScript.Party[i].cur_stamina;
+		   // Debug.Log(cur_stamina);
+			max_stamina = DataScript.Party[i].max_stamina;
+		}
+		changeHP(0);
+		changeS(0);
+		changeR(0);
+		initscalex = self.transform.localScale.x;
+		initscaley = self.transform.localScale.y;
+		bench[0] = 30;
+		bench[1] = bench[0]+51;
+		bench[2] = bench[1]+70;
+		bench[3] = bench[2]+60;
+		bench[4] = bench[0] + 30;
 	}
 	
 	public void Execute(){//this is only used for Player-controlled characters; called when attacking something else
@@ -296,10 +296,10 @@ public class Attacker : MonoBehaviour {
 			
 			DisplayDamage(damage);
 
-            Ddamage = damage/(bench[2]-bench[0]-1);
-            Dready1 = -hitStun / (bench[2] - bench[0] - 1);
-            Dready2 = -max_ready/bench[4];
-            Dstamina = -staminaCost / bench[4];
+			Ddamage = damage/(bench[2]-bench[0]-1);
+			Dready1 = -hitStun / (bench[2] - bench[0] - 1);
+			Dready2 = -max_ready/bench[4];
+			Dstamina = -staminaCost / bench[4];
 			//targeting.GetComponent<Attacker> ().changeHP (damage);
 			//targeting.GetComponent<Attacker> ().changeR (-hitStun);
 			//changeR (-max_ready);
@@ -341,13 +341,13 @@ public class Attacker : MonoBehaviour {
 			Die ();
 			cur_health = 0;
 		}
-        //if (partynumber < 11)
-        //{
-            string one = Mathf.Ceil(cur_health).ToString();
-            string two = max_health.ToString();
-            healthtxt.text = one + "/" + two;
-       // }
-            
+		//if (partynumber < 11)
+		//{
+			string one = Mathf.Ceil(cur_health).ToString();
+			string two = max_health.ToString();
+			healthtxt.text = one + "/" + two;
+	   // }
+			
 		SetBar (healthBar, cur_health/max_health);
 	}
 	
@@ -358,12 +358,12 @@ public class Attacker : MonoBehaviour {
 				cur_stamina = max_stamina;
 			if (cur_stamina < 0)
 				cur_stamina = 0;
-            if (partynumber < 11)
-            {
-                string one = Mathf.Ceil(cur_stamina    ).ToString();
-                string two = max_stamina.ToString();
-                stamtxt.text = one + "/" + two;
-            }
+			if (partynumber < 11)
+			{
+				string one = Mathf.Ceil(cur_stamina    ).ToString();
+				string two = max_stamina.ToString();
+				stamtxt.text = one + "/" + two;
+			}
 			SetBar (staminaBar, cur_stamina / max_stamina);
 		}
 	}
@@ -377,17 +377,17 @@ public class Attacker : MonoBehaviour {
 	void EditOpacity(GameObject obj,float opac)//only works for GAMEOBJECTS
 	{
 		obj.GetComponent<Renderer>().material.color = new Vector4 (obj.GetComponent<Renderer>().material.color.r,//keep original color
-                                                                   obj.GetComponent<Renderer>().material.color.g,
-                                                                   obj.GetComponent<Renderer>().material.color.b,
+																   obj.GetComponent<Renderer>().material.color.g,
+																   obj.GetComponent<Renderer>().material.color.b,
 																   opac/255);
 	}
-    void EditOpacity2(GameObject obj, float opac)//only works for GAMEOBJECTS
-    {
-        obj.GetComponent<Image>().color = new Vector4(obj.GetComponent<Image>().color.r,//keep original color
-                                                                   obj.GetComponent<Image>().color.g,
-                                                                   obj.GetComponent<Image>().color.b,
-                                                                   opac / 255);
-    }
+	void EditOpacity2(GameObject obj, float opac)//only works for GAMEOBJECTS
+	{
+		obj.GetComponent<Image>().color = new Vector4(obj.GetComponent<Image>().color.r,//keep original color
+																   obj.GetComponent<Image>().color.g,
+																   obj.GetComponent<Image>().color.b,
+																   opac / 255);
+	}
 
 
 	//these stats are used to change hp,stamina,readiness etc.
@@ -489,9 +489,9 @@ public class Attacker : MonoBehaviour {
 		//similar to execute but no AttackStats
 		//Attacker att = targeting.GetComponent<Attacker> ();
 		float dmg = Random.Range (-25, -30);
-        Ddamage = dmg / (bench[2] - bench[0] - 1);
-        Dready1 = -hitStun / (bench[2] - bench[0] - 1);
-        Dready2 = -max_ready / bench[4];
+		Ddamage = dmg / (bench[2] - bench[0] - 1);
+		Dready1 = -hitStun / (bench[2] - bench[0] - 1);
+		Dready2 = -max_ready / bench[4];
 
 		//att.changeHP (dmg);
 		//att.changeR (-70);
@@ -510,44 +510,44 @@ public class Attacker : MonoBehaviour {
 		Destroy (transform.FindChild ("Canvas").gameObject);
 		if (partynumber > 10) {
 			man.deathcount++;
-            if (man.deathcount == 3)
-            {
-                UpdateDataScript();
-                SceneManager.LoadScene("ExploreScene");
-            }
+			if (man.deathcount == 3)
+			{
+				UpdateDataScript();
+				SceneManager.LoadScene("ExploreScene");
+			}
 		} else {
-            DataScript.Party[partynumber - 1].exists = false;
-            DataScript.population--;
+			DataScript.Party[partynumber - 1].exists = false;
+			DataScript.population--;
 			if (DataScript.population == 0) {
 				SceneManager.LoadScene ("GameOverScene");
 			}
 		}
 	}
 
-    void UpdateDataScript()
-    {
-       GameObject guy = GameObject.Find("askdjalksdj");
-       for (int i = 0; i < 3; i++)
-       {
-           if (!DataScript.Party[i].exists)
-               continue;
-           switch (i)
-           {
-               case 0:
-                   guy = GameObject.Find("dude1");
-                   break;
-               case 1:
-                   guy = GameObject.Find("dude2");
-                   break;
-               case 2:
-                   guy = GameObject.Find("dude3");
-                   break;
-           }
-           DataScript.Party[i].cur_health = guy.GetComponent<Attacker>().cur_health;
-           DataScript.Party[i].cur_stamina = guy.GetComponent<Attacker>().cur_stamina;
-           DataScript.Party[i].exists = !(guy.GetComponent<Attacker>().dead);
-       }
-       }
+	void UpdateDataScript()
+	{
+	   GameObject guy = GameObject.Find("askdjalksdj");
+	   for (int i = 0; i < 3; i++)
+	   {
+		   if (!DataScript.Party[i].exists)
+			   continue;
+		   switch (i)
+		   {
+			   case 0:
+				   guy = GameObject.Find("dude1");
+				   break;
+			   case 1:
+				   guy = GameObject.Find("dude2");
+				   break;
+			   case 2:
+				   guy = GameObject.Find("dude3");
+				   break;
+		   }
+		   DataScript.Party[i].cur_health = guy.GetComponent<Attacker>().cur_health;
+		   DataScript.Party[i].cur_stamina = guy.GetComponent<Attacker>().cur_stamina;
+		   DataScript.Party[i].exists = !(guy.GetComponent<Attacker>().dead);
+	   }
+	   }
 	
 	void DisplayDamage(float damage){//called after both Execute() and DisplayDamage
 		//pause the game and switch to animation state
@@ -556,17 +556,17 @@ public class Attacker : MonoBehaviour {
 		displayingDamage = true;
 		
 		//enlarge self and enemy
-        //self.transform.localScale = new Vector3 (self.transform.localScale.x * 2.5f, self.transform.localScale.y * 2.5f, self.transform.localScale.z);
-        //if(targeting != self)
-        //targeting.transform.localScale = new Vector3 (targeting.transform.localScale.x * 2.0f, targeting.transform.localScale.y * 2.0f, targeting.transform.localScale.z);
+		//self.transform.localScale = new Vector3 (self.transform.localScale.x * 2.5f, self.transform.localScale.y * 2.5f, self.transform.localScale.z);
+		//if(targeting != self)
+		//targeting.transform.localScale = new Vector3 (targeting.transform.localScale.x * 2.0f, targeting.transform.localScale.y * 2.0f, targeting.transform.localScale.z);
 		
-        ////retrieve the text and blood_splotch
-        //Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
-        //Renderer splotchcolor = targeting.transform.FindChild("Canvas1").FindChild ("blood_splotch").GetComponent<Renderer>();
-        //dmgtxt.text = Mathf.Floor(damage).ToString();//set the text
+		////retrieve the text and blood_splotch
+		//Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
+		//Renderer splotchcolor = targeting.transform.FindChild("Canvas1").FindChild ("blood_splotch").GetComponent<Renderer>();
+		//dmgtxt.text = Mathf.Floor(damage).ToString();//set the text
 		
-        ////make them visible
-        //dmgtxt.color = new Vector4(dmgtxt.color.r,dmgtxt.color.g,dmgtxt.color.b,1f);
-        //splotchcolor.material.color = new Vector4(splotchcolor.material.color.r,splotchcolor.material.color.g,splotchcolor.material.color.b,1f);
+		////make them visible
+		//dmgtxt.color = new Vector4(dmgtxt.color.r,dmgtxt.color.g,dmgtxt.color.b,1f);
+		//splotchcolor.material.color = new Vector4(splotchcolor.material.color.r,splotchcolor.material.color.g,splotchcolor.material.color.b,1f);
 	}
 }

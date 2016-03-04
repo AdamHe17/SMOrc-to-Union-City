@@ -31,7 +31,7 @@ public class DataScript : MonoBehaviour {
 				member3 = GameObject.Find("Member3");
 				UpdateStatusBars();
 			}
-            UpdateStatusBars();
+			UpdateStatusBars();
 		}
 		
 	}
@@ -65,7 +65,7 @@ public class DataScript : MonoBehaviour {
 		Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();
 		SetBar(Health, cur_health / max_health);
 		SetBar(Stamina, cur_stamina / cur_health);
-        Debug.Log(max_health);
+		Debug.Log(max_health);
 		healthtxt.text = Mathf.Ceil(cur_health).ToString() + "/" + max_health.ToString();
 		stamtxt.text = Mathf.Ceil(cur_stamina).ToString() + "/" + max_stamina.ToString();
 	}
