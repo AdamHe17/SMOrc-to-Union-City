@@ -101,34 +101,31 @@ public struct Person
 		shirt_type = UnityEngine.Random.Range(1, 1);
 		pants_type = UnityEngine.Random.Range(1, 1);
 		shoes_type = UnityEngine.Random.Range(1, 1);
+		//default color
+		hair_color = skin_color = shirt_color = pants_color = shoes_color = Color.HSVToRGB(0, 0, 1);
 		switch (hair_type)
 		{
 			case 1:
-				hair_color = Color.HSVToRGB(0, 0, 1);
 				break;
 		}
 		switch (skin_type)
 		{
 			case 1:
-				skin_color = Color.HSVToRGB(0, 0, 1);
 				break;
 		}
 		switch (shirt_type)
 		{
 			case 1:
-				shirt_color = Color.HSVToRGB(0, 0, 1);
 				break;
 		}
 		switch (pants_type)
 		{
 			case 1:
-				pants_color = Color.HSVToRGB(0, 0, 1);
 				break;
 		}
 		switch (shoes_type)
 		{
 			case 1:
-				shoes_color = Color.HSVToRGB(0, 0, 1);
 				break;
 		}
 	}
