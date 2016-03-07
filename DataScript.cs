@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System;
+using UnityEditor;
+
 
 
 public class DataScript : MonoBehaviour {
@@ -17,7 +19,6 @@ public class DataScript : MonoBehaviour {
 	{
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("ExploreScene"))
 		{
-			
 			if (!gamestarted)
 			{
 				Debug.Log("hello");
@@ -82,6 +83,8 @@ public struct Person
 {
 	public int level;
 	public float cur_health, max_health, cur_stamina, max_stamina, xp, xp2lvl;
+	private int hair_type, skin_type, shirt_type, pants_type, shoes_type;
+	public Color hair_color, skin_color, shirt_color, pants_color, shoes_color;
 	public bool exists;
 	public Person(bool exist)
 	{
@@ -93,6 +96,41 @@ public struct Person
 		level = 1;
 		xp = 0;
 		xp2lvl = 10;
+		hair_type  = UnityEngine.Random.Range(1, 1);
+		skin_type  = UnityEngine.Random.Range(1, 1);
+		shirt_type = UnityEngine.Random.Range(1, 1);
+		pants_type = UnityEngine.Random.Range(1, 1);
+		shoes_type = UnityEngine.Random.Range(1, 1);
+		switch (hair_type)
+		{
+			case 1:
+				hair_color = Color.HSVToRGB(0, 0, 1);
+				break;
+		}
+		switch (skin_type)
+		{
+			case 1:
+				skin_color = Color.HSVToRGB(0, 0, 1);
+				break;
+		}
+		switch (shirt_type)
+		{
+			case 1:
+				shirt_color = Color.HSVToRGB(0, 0, 1);
+				break;
+		}
+		switch (pants_type)
+		{
+			case 1:
+				pants_color = Color.HSVToRGB(0, 0, 1);
+				break;
+		}
+		switch (shoes_type)
+		{
+			case 1:
+				shoes_color = Color.HSVToRGB(0, 0, 1);
+				break;
+		}
 	}
 	
 }
