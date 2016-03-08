@@ -4,11 +4,14 @@ using System.Collections;
 using System;
 
 public class ExploreBuildingScript: ExploreScript {
+
     void OnMouseDown() {
         ExploreBuilding();
     }
-    void Update()
-    {
+    void Update() {
+        if (Math.Abs(this.transform.position.x - (pos - 20f)) < 1) {
+            Debug.Log("Close");
+        }
     }
 
     void ExploreBuilding() {
