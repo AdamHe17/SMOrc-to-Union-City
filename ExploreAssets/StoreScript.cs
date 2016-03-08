@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using UnityEngine.EventSystems;
 
 public class StoreScript : ExploreScript {
 
@@ -13,8 +14,23 @@ public class StoreScript : ExploreScript {
         data = GameObject.Find("PersistentData");
         //exploreEvent = GameObject.Find("ExploreEvent").GetComponent<CanvasGroup>();
     }
-    void Update()
-    {
+    void Update() {
+        PointerEventData pointer = new PointerEventData(EventSystem.current);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+            ExecuteEvents.Execute(event1.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            ExecuteEvents.Execute(event2.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) {
+            ExecuteEvents.Execute(event3.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) {
+            ExecuteEvents.Execute(event4.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) {
+            ExecuteEvents.Execute(event5.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
     }
 
     void OnMouseDown() {
