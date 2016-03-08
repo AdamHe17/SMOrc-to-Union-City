@@ -14,6 +14,7 @@ public class DataScript : MonoBehaviour {
 	public static int supply = 10;
 	public static int population = 1;
 	public static bool gamestarted;
+	public static float Progress;
 	GameObject member1, member2, member3;
 	void Awake()
 	{

@@ -203,6 +203,7 @@ public class ExploreScript : MonoBehaviour {
                     EndDay(0);
             }
         }
+
         // }
     }
 
