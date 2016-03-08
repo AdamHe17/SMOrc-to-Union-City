@@ -10,7 +10,7 @@ public class ExploreScript : MonoBehaviour {
     GameObject persistentDataObject;
 
     GameObject scrollingBg;
-    protected float pos, lastBuildingPos;
+    protected float moveSpeed, pos, lastBuildingPos;
     protected int n_backgrounds, storeTimer;
     protected System.Random buildingRnd = new System.Random();
 
@@ -45,8 +45,9 @@ public class ExploreScript : MonoBehaviour {
         DontDestroyOnLoad(persistentDataObject);
 
         scrollingBg = GameObject.Find("ScrollingBackground");
-        n_backgrounds = 0;
-        lastBuildingPos = -0.139f;
+        moveSpeed = 10f;
+        n_backgrounds = 1;
+        lastBuildingPos = 4.9f;
         storeTimer = 3;
 
         building = GameObject.Find("Building");
@@ -104,42 +105,48 @@ public class ExploreScript : MonoBehaviour {
     void Update() {
         //Keyboard Inputs
         if (Input.GetKey(KeyCode.D)) {
-            scrollingBg.transform.Translate(Vector2.left * Time.deltaTime * 10f);
-            pos = 7.4f - scrollingBg.transform.position.x;
-            Debug.Log(pos - 9.4f);
-            Debug.Log(lastBuildingPos);
+            scrollingBg.transform.Translate(Vector2.left * Time.deltaTime * moveSpeed);
+            pos = -scrollingBg.transform.position.x;
+            Debug.Log(pos);
 
             // Generate Scrolling Background
-            if (Math.Abs((pos - 9.4f - 18.8f * n_backgrounds)) < 1 && n_backgrounds < 5) {
+            if (Math.Abs((pos - (18.8f * n_backgrounds - 9.4f))) < 1 && n_backgrounds < 5) {
                 GameObject temp = (GameObject)Instantiate(Resources.Load("ScrollingBackground"));
-                temp.transform.position = new Vector2(pos, 0.28f);
+                temp.transform.position = new Vector2(pos + 18.8f, 0.28f);
                 n_backgrounds += 1;
                 temp.transform.parent = scrollingBg.transform;
             }
 
             // Generate Buildings
-            if (pos -9.5f - (float)rnd.NextDouble() > lastBuildingPos) {
+            if (pos > lastBuildingPos) {
                 int check = buildingRnd.Next(0, 10);
                 if (storeTimer == 0) {
                     GameObject temp = (GameObject)Instantiate(Resources.Load("Store"));
-                    temp.transform.position = new Vector2(pos, 1.2f);
+                    temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                     temp.transform.parent = scrollingBg.transform;
+                    Debug.Log(temp.transform.position.x);
                     storeTimer = 3;
                 }
                 else if (check < 4) {
                     GameObject temp = (GameObject)Instantiate(Resources.Load("Building"));
-                    temp.transform.position = new Vector2(pos, 1.2f);
+                    temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                     temp.transform.parent = scrollingBg.transform;
+                    Debug.Log(temp.transform.position.x);
                 }
                 else if (check > 3) {
                     GameObject temp = (GameObject)Instantiate(Resources.Load("House"));
-                    temp.transform.position = new Vector2(pos, 1.2f);
+                    temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                     temp.transform.parent = scrollingBg.transform;
+                    Debug.Log(temp.transform.position.x);
                 }
                 storeTimer -= 1;
-                lastBuildingPos = pos;
+                lastBuildingPos = pos + 9.4f;
             }
 
+        }
+        else if (Input.GetKey(KeyCode.A) && pos > 0f) {
+            scrollingBg.transform.Translate(Vector2.right * Time.deltaTime * moveSpeed);
+            pos = -scrollingBg.transform.position.x;
         }
 
         // Moving the Sun
@@ -258,11 +265,11 @@ public class ExploreScript : MonoBehaviour {
                 String tempName = String.Format("AP{0}", actionCount.ToString());
                 actionPoints[tempName].color = Color.grey;
                 actionCount--;
-                if (actionCount == 0) {
-                    building.GetComponent<Collider2D>().enabled = false;
-                    house.GetComponent<Collider2D>().enabled = false;
-                    store.GetComponent<Collider2D>().enabled = false;
-                }
+                //if (actionCount == 0) {
+                //    building.GetComponent<Collider2D>().enabled = false;
+                //    house.GetComponent<Collider2D>().enabled = false;
+                //    store.GetComponent<Collider2D>().enabled = false;
+                //}
             }
         }
     }
@@ -293,6 +300,16 @@ public class ExploreScript : MonoBehaviour {
         event5.GetComponentInChildren<Text>().text = "";
         event5.GetComponent<Button>().onClick.RemoveAllListeners();
         event5.interactable = true;
+    }
+
+    protected void TooFar() {
+        ClearEvents();
+        exploreEvent.alpha = 1;
+
+        twoline.text = "There is a building far away (move closer to investigate).";
+
+        event2.GetComponentInChildren<Text>().text = "Ok";
+        event2.onClick.AddListener(() => Confirmed());
     }
 
     protected void Confirmed() {

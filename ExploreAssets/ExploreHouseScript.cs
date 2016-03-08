@@ -6,7 +6,12 @@ using System;
 public class ExploreHouseScript : ExploreScript {
     void OnMouseDown() {
         int check = rnd.Next(0, 10);
-        ExploreHouse(check);
+        if (Math.Abs(pos - this.transform.position.x - 6f) < 4f) {
+            ExploreHouse(check);
+        }
+        else {
+            TooFar();
+        }
     }
 
     void ExploreHouse(int check) {

@@ -18,7 +18,12 @@ public class StoreScript : ExploreScript {
     }
 
     void OnMouseDown() {
-        ExploreStore();
+        if (Math.Abs(pos - this.transform.position.x - 6f) < 4f) {
+            ExploreStore();
+        }
+        else {
+            TooFar();
+        }
     }
 
     void ExploreStore() {
