@@ -302,6 +302,16 @@ public class ExploreScript : MonoBehaviour {
         event5.interactable = true;
     }
 
+    protected void TooFar() {
+        ClearEvents();
+        exploreEvent.alpha = 1;
+
+        twoline.text = "There is a building far away (move closer to investigate).";
+
+        event2.GetComponentInChildren<Text>().text = "Ok";
+        event2.onClick.AddListener(() => Confirmed());
+    }
+
     protected void Confirmed() {
         exploreEvent.alpha = 0;
     }

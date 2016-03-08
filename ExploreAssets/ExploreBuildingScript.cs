@@ -6,12 +6,15 @@ using System;
 public class ExploreBuildingScript: ExploreScript {
 
     void OnMouseDown() {
-        ExploreBuilding();
+        if (Math.Abs(pos - this.transform.position.x - 6f) < 4f) {
+            ExploreBuilding();
+        }
+        else {
+            TooFar();
+        }
     }
     void Update() {
-        if (Math.Abs(this.transform.position.x - (pos - 20f)) < 1) {
-            Debug.Log("Close");
-        }
+
     }
 
     void ExploreBuilding() {
