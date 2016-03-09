@@ -66,8 +66,13 @@ public class Attacker : MonoBehaviour {
 		if (!dead) {
 			if (displayingDamage){//damage animation
 				///Get Hold of Splotch+Text
-				Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
-				Renderer splotchcolor = targeting.transform.FindChild("Canvas1").FindChild ("blood_splotch").GetComponent<Renderer>();
+				Text dmgtxt = null;
+				Renderer splotchcolor = new Renderer();
+				if (targeting != null)
+				{
+					dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
+					splotchcolor = targeting.transform.FindChild("Canvas1").FindChild("blood_splotch").GetComponent<Renderer>();
+				}
 				//Make them fade over time
 				
 				count++;
@@ -75,7 +80,7 @@ public class Attacker : MonoBehaviour {
 				if (count < bench[0])//enlarge attacker and receiver
 				{
 					self.transform.localScale = new Vector3(self.transform.localScale.x * 1.02f, self.transform.localScale.y * 1.02f, self.transform.localScale.z);
-					if (targeting != self)//dont enlarge if self target
+					if (targeting != null && targeting != self)//dont enlarge if self target
 						targeting.transform.localScale = new Vector3(targeting.transform.localScale.x * 1.01f, targeting.transform.localScale.y * 1.01f, targeting.transform.localScale.z);
 				}
 				else if (count == bench[0])//display damage
@@ -91,8 +96,10 @@ public class Attacker : MonoBehaviour {
 				{
 					//if (partynumber < 11)
 					//{
+					if (targeting != null) { 
 						targeting.GetComponent<Attacker>().changeHP(Ddamage);
 						targeting.GetComponent<Attacker>().changeR(Dready1);
+				}
 					//}
 					//else
 					//{
@@ -104,7 +111,7 @@ public class Attacker : MonoBehaviour {
 				else if (count < bench[3])//start reducing the size
 				{
 					self.transform.localScale = new Vector3(self.transform.localScale.x * .99f, self.transform.localScale.y * .99f, self.transform.localScale.z);
-					if (targeting != self)
+					if (targeting != null && targeting != self)
 						targeting.transform.localScale = new Vector3(targeting.transform.localScale.x * .995f, targeting.transform.localScale.y * .995f, targeting.transform.localScale.z);
 				}
 				else if (count == bench[3])
@@ -113,20 +120,29 @@ public class Attacker : MonoBehaviour {
 					count = 0;
 					//resize to normal
 					self.transform.localScale = new Vector3 (initscalex,initscaley, self.transform.localScale.z);
-					if(targeting != self)
-					targeting.transform.localScale = new Vector3 (targeting.GetComponent<Attacker>().initscalex, targeting.GetComponent<Attacker>().initscaley, targeting.transform.localScale.z);
-					//make the splotches go away
-					dmgtxt.color = new Vector4(dmgtxt.color.r,dmgtxt.color.g,dmgtxt.color.b,0f);
-					splotchcolor.material.color = new Vector4(splotchcolor.material.color.r,splotchcolor.material.color.g,splotchcolor.material.color.b,0f);
-					man.pause = false;
-					man.clickable = false;
-					man.targeter = 0;
-					man.targeting = 0;
+					if (targeting != null && targeting != self)
+					{
+						if (targeting.GetComponent<Attacker>().cur_health >= 0)
+						{
+							targeting.transform.localScale = new Vector3(targeting.GetComponent<Attacker>().initscalex, targeting.GetComponent<Attacker>().initscaley, targeting.transform.localScale.z);
+						}
+						//make the splotches go away
+						dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, 0f);
+						splotchcolor.material.color = new Vector4(splotchcolor.material.color.r, splotchcolor.material.color.g, splotchcolor.material.color.b, 0f);
+					}
+						man.pause = false;
+						man.clickable = false;
+						man.targeter = 0;
+						man.targeting = 0;
+					
 				}
 				if (count > bench[1])
 				{
-					dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, dmgtxt.color.a * .98f);
-					splotchcolor.material.color = new Vector4(splotchcolor.material.color.r, splotchcolor.material.color.g, splotchcolor.material.color.b, splotchcolor.material.color.a * 0.98f);
+					if (dmgtxt != null)
+					{
+						dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, dmgtxt.color.a * .98f);
+						splotchcolor.material.color = new Vector4(splotchcolor.material.color.r, splotchcolor.material.color.g, splotchcolor.material.color.b, splotchcolor.material.color.a * 0.98f);
+					}
 				}
 				if (count < bench[4])
 				{
@@ -262,11 +278,11 @@ public class Attacker : MonoBehaviour {
 		changeR(0);
 		initscalex = self.transform.localScale.x;
 		initscaley = self.transform.localScale.y;
-		bench[0] = 30;
-		bench[1] = bench[0]+51;
-		bench[2] = bench[1]+70;
-		bench[3] = bench[2]+60;
-		bench[4] = bench[0] + 30;
+		bench[0] = 30;//enlarging
+		bench[1] = bench[0]+51;  //start to fade damage (one before and you show damage)
+		bench[2] = bench[1] + 70;//start to decrease health
+		bench[3] = bench[2] + 60;//decrease size
+		bench[4] = bench[0] + 30;//adjust stamina and readiness
 	}
 	
 	public void Execute(){//this is only used for Player-controlled characters; called when attacking something else
@@ -295,6 +311,13 @@ public class Attacker : MonoBehaviour {
 			float damage = Random.Range (-minDamage,-maxDamage);
 			
 			DisplayDamage(damage);
+
+			//bench[0] = 30;//enlarging
+			//bench[1] = bench[0] + 51;  //start to fade damage (one before and you show damage)
+			//bench[2] = bench[1] + 70;//start to decrease health
+			//bench[3] = bench[2] + 60;//decrease size
+			//bench[4] = bench[0] + 30;//adjust stamina and readiness
+
 
 			Ddamage = damage/(bench[2]-bench[0]-1);
 			Dready1 = -hitStun / (bench[2] - bench[0] - 1);
@@ -466,21 +489,23 @@ public class Attacker : MonoBehaviour {
 		switch (attack) {
 		case 1:
 			targeting = GameObject.Find ("dude1");
-			if(targeting.GetComponent<Attacker>().dead){//don't attack dead people
+			if (targeting != null && targeting.GetComponent<Attacker>().dead)
+			{//don't attack dead people
 				EnemyAttack ();
 				return;
 			}
 			break;
 		case 2:
 			targeting = GameObject.Find ("dude2");
-			if(targeting.GetComponent<Attacker>().dead){
+			if(targeting != null && targeting.GetComponent<Attacker>().dead){
 				EnemyAttack ();
 				return;
 			}
 			break;
 		case 3:
 			targeting = GameObject.Find ("dude3");
-			if(targeting.GetComponent<Attacker>().dead){
+			if (targeting != null && targeting.GetComponent<Attacker>().dead)
+			{
 				EnemyAttack ();
 				return;
 			}

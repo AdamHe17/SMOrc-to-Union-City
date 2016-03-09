@@ -14,8 +14,11 @@ public class DataScript : MonoBehaviour {
 	public static int supply = 10;
 	public static int population = 1;
 	public static bool gamestarted;
+	public static bool gamestarted2;
 	public static float Progress;
 	GameObject member1, member2, member3;
+	//public static Sprite Att0, Att1, Att2, Att3, Att4, Att5, Att6, Att7, Att8;
+	public Sprite supersayan;
 	void Awake()
 	{
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("ExploreScene"))
@@ -33,15 +36,23 @@ public class DataScript : MonoBehaviour {
 				member3 = GameObject.Find("Member3");
 				UpdateStatusBars();
 			}
+			member1 = GameObject.Find("Member1");
+			member2 = GameObject.Find("Member2");
+			member3 = GameObject.Find("Member3");
 			UpdateStatusBars();
 			UpdateMoveSets();
 		}
+		//Att0 = Resources.Load("punch", typeof(Sprite)) as Sprite;
 		
 	}
 
 	void Update()
 	{
-		// SetBar(GameObject.Find("Progress").transform.FindChild("Bar").gameObject, Progress / 10000);
+		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("ExploreScene"))
+		{
+			SetBar(GameObject.Find("Progress").transform.FindChild("Bar").gameObject, Progress / 10000);
+			GameObject.Find("ProgressCaravan").transform.localPosition = new Vector3(-500 + Progress / 10, transform.localPosition.y, transform.localPosition.z);
+		}
 	}
 
 	public void UpdateStatusBars()
@@ -53,30 +64,45 @@ public class DataScript : MonoBehaviour {
 
 	void UpdateStatusBarsHelp(GameObject mem,int id)
 	{
-		float cur_stamina = Party[id].cur_stamina;
-		float cur_health = Party[id].cur_health;
-		float max_stamina = Party[id].max_stamina;
-		float max_health = Party[id].max_health;
-		if (cur_stamina >= max_stamina)
+		if (Party[id].exists)
 		{
-			Party[id].cur_stamina = max_stamina;
-			cur_stamina = max_stamina;
+			float xp = Party[id].max_health;
+			float xp2lvl = Party[id].xp2lvl;
+			if (xp >= xp2lvl)
+			{
+				Party[id].xp -= Party[id].xp2lvl;
+				Party[id].xp2lvl *= 1.5f;
+				Party[id].level++;
+				Party[id].max_health += UnityEngine.Random.Range(10, 15);
+				Party[id].max_stamina += UnityEngine.Random.Range(10, 15);
+			}
+			float cur_stamina = Party[id].cur_stamina;
+			float cur_health = Party[id].cur_health;
+			float max_stamina = Party[id].max_stamina;
+			float max_health = Party[id].max_health;
+			if (cur_stamina >= max_stamina)
+			{
+				Party[id].cur_stamina = max_stamina;
+				cur_stamina = max_stamina;
+			}
+			if (cur_health >= max_health)
+			{
+				Party[id].cur_health = max_health;
+				cur_health = max_health;
+			}
+			GameObject Health = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
+			GameObject Stamina = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
+			//Debug.Log(id);
+			Text healthtxt = mem.transform.FindChild("HPValue").GetComponent<Text>();
+			Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();
+			Text lvltxt = mem.transform.FindChild("Level").GetComponent<Text>();
+			lvltxt.text = "Level: " + (Party[id].level).ToString();
+			SetBar(Health, cur_health / max_health);
+			SetBar(Stamina, cur_stamina / cur_health);
+			//Debug.Log(max_health);
+			healthtxt.text = Mathf.Ceil(cur_health).ToString() + "/" + max_health.ToString();
+			stamtxt.text = Mathf.Ceil(cur_stamina).ToString() + "/" + max_stamina.ToString();
 		}
-		if (cur_health >= max_health)
-		{
-			Party[id].cur_health = max_health;
-			cur_health = max_health;
-		}
-		GameObject Health = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
-		GameObject Stamina = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
-		//Debug.Log(id);
-		Text healthtxt = mem.transform.FindChild("HPValue").GetComponent<Text>();
-		Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();
-		SetBar(Health, cur_health / max_health);
-		SetBar(Stamina, cur_stamina / cur_health);
-		//Debug.Log(max_health);
-		healthtxt.text = Mathf.Ceil(cur_health).ToString() + "/" + max_health.ToString();
-		stamtxt.text = Mathf.Ceil(cur_stamina).ToString() + "/" + max_stamina.ToString();
 	}
 
 	public void UpdateMoveSets()
@@ -88,9 +114,15 @@ public class DataScript : MonoBehaviour {
 
 	void UpdateMoveSetsHelp(GameObject mem, int id)
 	{
-		for (int attackid = 0; attackid < 4; attackid++){
-			GameObject temp = mem.transform.FindChild("Canvas").FindChild("Attacks").GetChild(attackid).gameObject;
-			//TODO: add stuff for editing movetxt
+		if (Party[id].exists)
+		{
+			for (int attackid = 0; attackid < 4; attackid++)
+			{
+				GameObject temp = mem.transform.FindChild("Canvas").FindChild("Attacks").GetChild(attackid).gameObject;
+				temp.transform.GetChild(0).GetComponentInChildren<Text>().text = Party[id].moveset[attackid].damage_min + "-" + Party[id].moveset[attackid].damage_max;
+				temp.transform.GetChild(1).GetComponentInChildren<Text>().text = (Party[id].moveset[attackid].stamina_cost).ToString();
+				temp.GetComponent<Image>().sprite = GameObject.Find("AttackSprites").transform.GetChild(attackid).GetComponent<SpriteRenderer>().sprite;
+			}
 		}
 	}
 
@@ -170,35 +202,73 @@ public struct Attack
 	public float damage_max;
 	public float stamina_cost;
 	public float hit_stun;
+	//private Sprite img;
 	public Attack(int movno)
 	{
 		id = movno;
-		damage_min = damage_max = stamina_cost = hit_stun = 10;
+		//img = DataScript.Att0;
+		// damage_min = damage_max = stamina_cost = hit_stun = 10;
 		switch (movno)
 		{
-			case 1://punch
+			case 0://punch
 				damage_min = 10;
 				damage_max = 15;
 				stamina_cost = 15;
 				hit_stun = 35;
 				break;
-			case 2://kick
+			case 1://kick
 				damage_min = 15;
 				damage_max = 25;
 				stamina_cost = 20;
 				hit_stun = 20;
 				break;
-			case 3://poke
+			case 2://poke
 				damage_min = 1;
 				damage_max = 3;
 				stamina_cost = 5;
 				hit_stun = 50;
 				break;
-			case 4:
+			case 3://supersayan
 				damage_min = 50;
 				damage_max = 75;
 				stamina_cost = 80;
 				hit_stun = 100;
+				break;
+			case 4://bite
+				damage_min = 0;
+				damage_max = 0;
+				stamina_cost = 0;
+				hit_stun = 0;
+				break;
+			case 5://chop
+				damage_min = 0;
+				damage_max = 0;
+				stamina_cost = 0;
+				hit_stun = 0;
+				break;
+			case 6://claw
+				damage_min = 0;
+				damage_max = 0;
+				stamina_cost = 0;
+				hit_stun = 0;
+				break;
+			case 7://roundhouse
+				damage_min = 0;
+				damage_max = 0;
+				stamina_cost = 0;
+				hit_stun = 0;
+				break;
+			case 8://thousandfists
+				damage_min = 0;
+				damage_max = 0;
+				stamina_cost = 0;
+				hit_stun = 0;
+				break;
+			default:
+				damage_min = 0;
+				damage_max = 0;
+				stamina_cost = 0;
+				hit_stun = 0;
 				break;
 		}
 	}

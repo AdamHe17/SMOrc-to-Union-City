@@ -38,7 +38,7 @@ public class ExploreHouseScript : ExploreScript {
 
     void OnMouseDown() {
         int check = rnd.Next(0, 10);
-        if (Math.Abs(pos - this.transform.position.x - 6f) < 4f) {
+        if (Math.Abs(pos - this.transform.position.x - 6f) < 5f) {
             ExploreHouse(check);
         }
         else {
@@ -98,7 +98,7 @@ public class ExploreHouseScript : ExploreScript {
 
         if (check < 2) {
             oneline.text = "jumped on by a sleeper. (-5 HP)";
-            DataScript.Party[check].cur_health -= 5;
+            ChangeRandomPartyHP(-5);
             data.GetComponent<DataScript>().UpdateStatusBars();
         }
         else if (check < 7) {
@@ -144,7 +144,7 @@ public class ExploreHouseScript : ExploreScript {
 
         if (check < 2) {
             event1.GetComponentInChildren<Text>().text = "Ran into a trap. (-4 HP)";
-            DataScript.Party[check].cur_health -= 4;
+            ChangeRandomPartyHP(-4);
             data.GetComponent<DataScript>().UpdateStatusBars();
         }
         else if (check < 7) {
