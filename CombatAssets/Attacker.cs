@@ -66,8 +66,7 @@ public class Attacker : MonoBehaviour {
 
 	
 	void Update(){
-		//GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
-		//persistentDataObject.GetComponent<DataScript>().UpdateStatusBarsCombat();
+		
 		if (!dead) {
 			if (displayingDamage){//damage animation
 				///Get Hold of Splotch+Text
@@ -213,6 +212,8 @@ public class Attacker : MonoBehaviour {
 		opacity = 0;
 		manager = GameObject.Find ("Manager");
 		man = manager.GetComponent<Manager> ();
+        GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
+        persistentDataObject.GetComponent<DataScript>().UpdateMoveSets2();
 		
 		
 		switch (partynumber) {

@@ -101,8 +101,12 @@ public class DataScript : MonoBehaviour {
 				Party[id].xp -= Party[id].xp2lvl;
 				Party[id].xp2lvl *= 1.5f;
 				Party[id].level++;
-				Party[id].max_health += UnityEngine.Random.Range(10, 15);
-				Party[id].max_stamina += UnityEngine.Random.Range(10, 15);
+                int temp1 = UnityEngine.Random.Range(10, 15);
+                int temp2 = UnityEngine.Random.Range(10, 15);
+                Party[id].max_health += temp1;
+                Party[id].cur_health += temp1;
+                Party[id].max_stamina += temp2;
+                Party[id].cur_stamina += temp2;
 			}
 			float cur_stamina = Party[id].cur_stamina;
 			float cur_health = Party[id].cur_health;
@@ -186,6 +190,26 @@ public class DataScript : MonoBehaviour {
 		UpdateMoveSetsHelp(member3, 2);
 	}
 
+    public void UpdateMoveSets2()
+    {
+        GameObject mem1, mem2, mem3;
+        mem1 = mem2 = mem3 = null;
+        if (Party[0].exists)
+            mem1 = GameObject.Find("dude1").transform.FindChild("CombatUI").GetChild(0).gameObject; // FindChild("CombatUI").GetChild(0);
+        if (Party[1].exists)
+
+            mem2 = GameObject.Find("dude2").transform.FindChild("CombatUI").GetChild(0).gameObject;
+        if (Party[2].exists)
+            mem3 = GameObject.Find("dude3").transform.FindChild("CombatUI").GetChild(0).gameObject;
+        //Debug.Log(mem1.GetComponent<RectTransform>().position.x);
+        if (Party[0].exists)
+            UpdateMoveSetsHelp2(mem1, 0);
+        if (Party[1].exists)
+            UpdateMoveSetsHelp2(mem2, 1);
+        if (Party[2].exists)
+            UpdateMoveSetsHelp2(mem3, 2);
+    }
+
 	void UpdateMoveSetsHelp(GameObject mem, int id)
 	{
 		if (Party[id].exists)
@@ -199,6 +223,20 @@ public class DataScript : MonoBehaviour {
 			}
 		}
 	}
+
+    void UpdateMoveSetsHelp2(GameObject mem, int id)
+    {
+        if (Party[id].exists)
+        {
+            for (int attackid = 0; attackid < 4; attackid++)
+            {
+                GameObject temp = mem.transform.FindChild("Attacks").GetChild(attackid).gameObject;
+                temp.transform.GetChild(0).GetComponentInChildren<Text>().text = Party[id].moveset[attackid].damage_min + "-" + Party[id].moveset[attackid].damage_max;
+                temp.transform.GetChild(1).GetComponentInChildren<Text>().text = (Party[id].moveset[attackid].stamina_cost).ToString();
+                temp.GetComponent<Image>().sprite = GameObject.Find("AttackSprites").transform.GetChild(attackid).GetComponent<SpriteRenderer>().sprite;
+            }
+        }
+    }
 
 	void SetBar(GameObject bar, float new_stat)
 	{
