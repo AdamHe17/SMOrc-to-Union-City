@@ -4,6 +4,14 @@ using System.Collections;
 using System;
 
 public class ExploreHouseScript : ExploreScript {
+
+    int exploreLimit = 4;
+    GameObject data;
+
+    void Awake() {
+        data = GameObject.Find("PersistentData");
+    }
+
     void OnMouseDown() {
         int check = rnd.Next(0, 10);
         if (Math.Abs(pos - this.transform.position.x - 6f) < 4f) {
@@ -17,6 +25,11 @@ public class ExploreHouseScript : ExploreScript {
     void ExploreHouse(int check) {
         exploreEvent.alpha = 1;
         ClearEvents();
+
+        if (exploreLimit <= 0) {
+            NothingLeft();
+            return;
+        }
 
         twoline.text = "There is small house nearby, all the windows are intact and there seems to be no zombies inside.";
 
@@ -36,6 +49,12 @@ public class ExploreHouseScript : ExploreScript {
             EndDay(1);
             return;
         }
+
+        if (exploreLimit <= 0) {
+            NothingLeft();
+            return;
+        }
+
         twoline.text = "You explored the house for a bit but there are still rooms inside";
 
         event1.GetComponentInChildren<Text>().text = "1. Search another room (-1 AP)";
@@ -50,6 +69,7 @@ public class ExploreHouseScript : ExploreScript {
     void InsideEvent(int APCost) {
         LowerAP(APCost);
         ClearEvents();
+        exploreLimit -= 1;
         int check = rnd.Next(0, 10);
 
         if (check < 2) {
@@ -77,6 +97,11 @@ public class ExploreHouseScript : ExploreScript {
             return;
         }
 
+        if (exploreLimit <= 0) {
+            NothingLeft();
+            return;
+        }
+
         event1.GetComponentInChildren<Text>().text = "1. Go inside and look for supplies. (-1 AP)";
         event1.onClick.AddListener(() => InsideEvent(1));
         if (actionCount < 1)
@@ -89,6 +114,7 @@ public class ExploreHouseScript : ExploreScript {
     void OutsideEvent() {
         LowerAP(1);
         ClearEvents();
+        exploreLimit -= 1;
         int check = rnd.Next(0, 10);
 
         if (check < 2) {
@@ -109,7 +135,12 @@ public class ExploreHouseScript : ExploreScript {
         event5.onClick.AddListener(() => Confirmed());
     }
 
-    void Update()
-    {
+    void NothingLeft() {
+        ClearEvents();
+
+        twoline.text = "There is nothing left in this building.";
+
+        event1.GetComponentInChildren<Text>().text = "1. Leave";
+        event1.onClick.AddListener(() => Confirmed());
     }
 }
