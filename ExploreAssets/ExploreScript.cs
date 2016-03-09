@@ -29,8 +29,6 @@ public class ExploreScript : MonoBehaviour {
 
     protected System.Random rnd = new System.Random();
 
-    GameObject building, house, store;
-
     GameObject sun;
     GameObject sky;
     SpriteRenderer skycolor;
@@ -46,14 +44,10 @@ public class ExploreScript : MonoBehaviour {
         DontDestroyOnLoad(persistentDataObject);
 
         scrollingBg = GameObject.Find("ScrollingBackground");
-        moveSpeed = 10f;
+        moveSpeed = 50f;
         n_backgrounds = 1;
         lastBuildingPos = 4.9f;
-        storeTimer = 3;
-
-        building = GameObject.Find("Building");
-        house = GameObject.Find("House");
-        store = GameObject.Find("Store");
+        storeTimer = 2;
 
         sun = GameObject.Find("Sun");
         sky = GameObject.Find("sky");
@@ -89,7 +83,7 @@ public class ExploreScript : MonoBehaviour {
         event5 = GameObject.Find("Event5").GetComponent<Button>();
 
 
-        timewarp = 1f;
+        timewarp = 8f;
         sun = GameObject.Find("Sun");
         sky = GameObject.Find("sky");
 
@@ -107,14 +101,6 @@ public class ExploreScript : MonoBehaviour {
                 DataScript.Progress += moveSpeed / 10;
                 //Debug.Log("hi");
 
-                // Generate Scrolling Background
-                if (Math.Abs((pos - (18.8f * n_backgrounds - 9.4f))) < 1 && n_backgrounds < 5) {
-                    GameObject temp = (GameObject)Instantiate(Resources.Load("ScrollingBackground"));
-                    temp.transform.position = new Vector2(pos + 18.8f, 0.28f);
-                    n_backgrounds += 1;
-                    temp.transform.parent = scrollingBg.transform;
-                }
-
                 // Generate Buildings
                 if (pos > lastBuildingPos) {
                     int check = buildingRnd.Next(0, 20);
@@ -124,12 +110,12 @@ public class ExploreScript : MonoBehaviour {
                         temp.transform.parent = scrollingBg.transform;
                         storeTimer = 5;
                     }
-                    else if (check < 1) {//8
+                    else if (check < 8) {//8
                         GameObject temp = (GameObject)Instantiate(Resources.Load("Building"));
                         temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                         temp.transform.parent = scrollingBg.transform;
                     }
-                    else if (check < 2) {//19
+                    else if (check < 18) {//18
                         GameObject temp = (GameObject)Instantiate(Resources.Load("House"));
                         temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                         temp.transform.parent = scrollingBg.transform;

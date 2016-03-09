@@ -16,7 +16,7 @@ public class DataScript : MonoBehaviour {
 	public static bool gamestarted;
 	public static bool gamestarted2;
 	public static float Progress;
-	GameObject member1, member2, member3;
+	public GameObject member1, member2, member3;
 	//public static Sprite Att0, Att1, Att2, Att3, Att4, Att5, Att6, Att7, Att8;
 	public Sprite supersayan;
 	void Awake()
