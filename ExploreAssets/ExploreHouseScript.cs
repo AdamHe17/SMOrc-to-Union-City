@@ -73,13 +73,14 @@ public class ExploreHouseScript : ExploreScript {
         int check = rnd.Next(0, 10);
 
         if (check < 2) {
-            //member1HP.text = Math.Max((int.Parse(member1HP.text) - 5), 0).ToString();
-            LowerAP(1);
-            oneline.text = "jumped on by a sleeper. (-5 HP, -1 AP)";
+            oneline.text = "jumped on by a sleeper. (-5 HP)";
+            DataScript.Party[check].cur_health -= 5;
+            data.GetComponent<DataScript>().UpdateStatusBars();
         }
         else if (check < 7) {
-            Supply.text = (int.Parse(Supply.text) + 3).ToString();
-            oneline.text = "Found some supplies. (+3 Supplies)";
+            oneline.text = "Found some supplies. (+2 Supplies)";
+            DataScript.supply += 2;
+            Supply.text = (int.Parse(Supply.text) + 2).ToString();
         }
         else {
             oneline.text = "No one is here.";
@@ -118,13 +119,14 @@ public class ExploreHouseScript : ExploreScript {
         int check = rnd.Next(0, 10);
 
         if (check < 2) {
-            member1HP.text = Math.Max((int.Parse(member1HP.text) - 4), 0).ToString();
-            LowerAP(1);
             event1.GetComponentInChildren<Text>().text = "Ran into a trap. (-4 HP)";
+            DataScript.Party[check].cur_health -= 4;
+            data.GetComponent<DataScript>().UpdateStatusBars();
         }
         else if (check < 7) {
-            Supply.text = (int.Parse(Supply.text) + 2).ToString();
             event1.GetComponentInChildren<Text>().text = "Found some scrap wood. (+2 Supplies)";
+            DataScript.supply += 2;
+            Supply.text = (int.Parse(Supply.text) + 2).ToString();
         }
         else {
             LowerAP(1);
