@@ -38,7 +38,7 @@ public class ExploreHouseScript : ExploreScript {
 
     void OnMouseDown() {
         int check = rnd.Next(0, 10);
-        if (Math.Abs(pos - this.transform.position.x - 6f) < 5f) {
+        if (Math.Abs(pos - this.transform.position.x - 6f) < 5f && !fastforward) {
             ExploreHouse(check);
         }
         else {

@@ -18,7 +18,7 @@ public class ExploreBuildingScript: ExploreScript {
     }
 
     void OnMouseDown() {
-        if (Math.Abs(pos - this.transform.position.x - 6f) < 4f) {
+        if (Math.Abs(pos - this.transform.position.x - 6f) < 4f && !fastforward) {
             ExploreBuilding();
         }
         else {
