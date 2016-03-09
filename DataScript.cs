@@ -56,7 +56,7 @@ public class DataScript : MonoBehaviour {
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("CombatScene"))
 		{
 			UpdateStatusBarsCombat();
-			//UpdateMoveSets();
+			Debug.Log("hello");
 		}
 	}
 
@@ -69,9 +69,10 @@ public class DataScript : MonoBehaviour {
 
 	public void UpdateStatusBarsCombat()
 	{
-		GameObject mem1 = GameObject.Find("dude1").transform.GetChild(0).gameObject; // FindChild("CombatUI").GetChild(0);
-		GameObject mem2 = GameObject.Find("dude2").transform.GetChild(0).gameObject;
-		GameObject mem3 = GameObject.Find("dude3").transform.GetChild(0).gameObject;
+		GameObject mem1 = GameObject.Find("dude1").transform.FindChild("CombatUI").GetChild(0).gameObject; // FindChild("CombatUI").GetChild(0);
+		GameObject mem2 = GameObject.Find("dude2").transform.FindChild("CombatUI").GetChild(0).gameObject;
+		GameObject mem3 = GameObject.Find("dude3").transform.FindChild("CombatUI").GetChild(0).gameObject;
+		//Debug.Log(mem1.GetComponent<RectTransform>().position.x);
 		UpdateStatusBarsHelp(mem1, 0);
 		UpdateStatusBarsHelp(mem2, 1);
 		UpdateStatusBarsHelp(mem3, 2);

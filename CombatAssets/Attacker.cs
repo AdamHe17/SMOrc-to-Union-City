@@ -79,9 +79,9 @@ public class Attacker : MonoBehaviour {
 				//Debug.Log (count);
 				if (count < bench[0])//enlarge attacker and receiver
 				{
-					self.transform.localScale = new Vector3(self.transform.localScale.x * 1.02f, self.transform.localScale.y * 1.02f, self.transform.localScale.z);
+					self.transform.FindChild("Graphics").localScale = new Vector3(self.transform.FindChild("Graphics").localScale.x * 1.02f, self.transform.FindChild("Graphics").localScale.y * 1.02f, self.transform.FindChild("Graphics").localScale.z);
 					if (targeting != null && targeting != self)//dont enlarge if self target
-						targeting.transform.localScale = new Vector3(targeting.transform.localScale.x * 1.01f, targeting.transform.localScale.y * 1.01f, targeting.transform.localScale.z);
+						targeting.transform.FindChild("Graphics").localScale = new Vector3(targeting.transform.FindChild("Graphics").localScale.x * 1.01f, targeting.transform.FindChild("Graphics").localScale.y * 1.01f, targeting.transform.FindChild("Graphics").localScale.z);
 				}
 				else if (count == bench[0])//display damage
 				{
@@ -110,21 +110,21 @@ public class Attacker : MonoBehaviour {
 				}
 				else if (count < bench[3])//start reducing the size
 				{
-					self.transform.localScale = new Vector3(self.transform.localScale.x * .99f, self.transform.localScale.y * .99f, self.transform.localScale.z);
+					self.transform.FindChild("Graphics").localScale = new Vector3(self.transform.FindChild("Graphics").localScale.x * .99f, self.transform.FindChild("Graphics").localScale.y * .99f, self.transform.FindChild("Graphics").localScale.z);
 					if (targeting != null && targeting != self)
-						targeting.transform.localScale = new Vector3(targeting.transform.localScale.x * .995f, targeting.transform.localScale.y * .995f, targeting.transform.localScale.z);
+						targeting.transform.FindChild("Graphics").localScale = new Vector3(targeting.transform.FindChild("Graphics").localScale.x * .995f, targeting.transform.FindChild("Graphics").localScale.y * .995f, targeting.transform.FindChild("Graphics").localScale.z);
 				}
 				else if (count == bench[3])
 				{//when the animation phase is over
 					displayingDamage = false;
 					count = 0;
 					//resize to normal
-					self.transform.localScale = new Vector3 (initscalex,initscaley, self.transform.localScale.z);
+					self.transform.FindChild("Graphics").localScale = new Vector3(initscalex, initscaley, self.transform.FindChild("Graphics").localScale.z);
 					if (targeting != null && targeting != self)
 					{
 						if (targeting.GetComponent<Attacker>().cur_health >= 0)
 						{
-							targeting.transform.localScale = new Vector3(targeting.GetComponent<Attacker>().initscalex, targeting.GetComponent<Attacker>().initscaley, targeting.transform.localScale.z);
+							targeting.transform.FindChild("Graphics").localScale = new Vector3(targeting.GetComponent<Attacker>().initscalex, targeting.GetComponent<Attacker>().initscaley, targeting.transform.FindChild("Graphics").localScale.z);
 						}
 						//make the splotches go away
 						dmgtxt.color = new Vector4(dmgtxt.color.r, dmgtxt.color.g, dmgtxt.color.b, 0f);
@@ -276,8 +276,8 @@ public class Attacker : MonoBehaviour {
 		changeHP(0);
 		changeS(0);
 		changeR(0);
-		initscalex = self.transform.localScale.x;
-		initscaley = self.transform.localScale.y;
+		initscalex = self.transform.FindChild("Graphics").localScale.x;
+		initscaley = self.transform.FindChild("Graphics").localScale.y;
 		bench[0] = 30;//enlarging
 		bench[1] = bench[0]+51;  //start to fade damage (one before and you show damage)
 		bench[2] = bench[1] + 70;//start to decrease health
