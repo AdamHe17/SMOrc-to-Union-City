@@ -9,6 +9,10 @@ public class ExploreBuildingScript: ExploreScript {
     int exploreLimit = 6;
     GameObject data;
 
+    void Start() {
+
+    }
+
     void Awake() {
         data = GameObject.Find("PersistentData");
     }

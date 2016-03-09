@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class ExploreScript : MonoBehaviour {
 
@@ -15,16 +16,16 @@ public class ExploreScript : MonoBehaviour {
     protected System.Random buildingRnd = new System.Random();
 
     Button endDayButton;
-    Dictionary<string, Image> actionPoints = new Dictionary<string, Image>();
+    protected static Dictionary<string, Image> actionPoints = new Dictionary<string, Image>();
     protected static int actionCount;
     protected static int actionPointLimit = 5;
 
-    protected static Text member1HP, Supply;
+    protected static Text Supply;
 
-    protected CanvasGroup exploreEvent;
-    protected Button event1, event2, event3, event4, event5;
-    protected GameObject ev;
-    public Text oneline, twoline, threeline;
+    protected static CanvasGroup exploreEvent;
+    protected static Button event1, event2, event3, event4, event5;
+    protected static GameObject ev;
+    public static Text oneline, twoline, threeline;
 
     protected System.Random rnd = new System.Random();
 
@@ -139,6 +140,24 @@ public class ExploreScript : MonoBehaviour {
             pos = -scrollingBg.transform.position.x;
         }
 
+        // Numeric input for event selection
+        PointerEventData pointer = new PointerEventData(EventSystem.current);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+            ExecuteEvents.Execute(event1.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            ExecuteEvents.Execute(event2.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) {
+            ExecuteEvents.Execute(event3.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) {
+            ExecuteEvents.Execute(event4.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) {
+            ExecuteEvents.Execute(event5.gameObject, pointer, ExecuteEvents.submitHandler);
+        }
+
         // Moving the Sun
         if (!dayover) {
             //moving the sun up/down
@@ -227,9 +246,9 @@ public class ExploreScript : MonoBehaviour {
             exploreEvent.alpha = 1;
             oneline.text = "You ran out of Action Points";
             // fastforward = true;
-            SceneManager.LoadScene("CombatScene");
             event1.GetComponentInChildren<Text>().text = "1. Ok";
-            event1.onClick.AddListener(() => timewarp = 30f);
+            event1.onClick.AddListener(() => timewarp = 200f);
+            event1.onClick.AddListener(() => fastforward = true);
             event1.onClick.AddListener(() => Confirmed());
         }
         else /*if(!fastforward)*/{

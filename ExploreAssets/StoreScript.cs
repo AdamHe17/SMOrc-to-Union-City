@@ -9,6 +9,10 @@ public class StoreScript : ExploreScript {
     GameObject data;
    // CanvasGroup exploreEvent;
 
+    void Start() {
+
+    }
+
     void Awake()
     {
         data = GameObject.Find("PersistentData");
