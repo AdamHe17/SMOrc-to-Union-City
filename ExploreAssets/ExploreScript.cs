@@ -353,12 +353,13 @@ public class ExploreScript : MonoBehaviour {
 
         twoline.text = "There is a building far away (move closer to investigate).";
 
-        event2.GetComponentInChildren<Text>().text = "1. Ok";
-        event2.onClick.AddListener(() => Confirmed());
+        event1.GetComponentInChildren<Text>().text = "1. Ok";
+        event1.onClick.AddListener(() => Confirmed());
     }
 
     protected void Confirmed() {
         exploreEvent.alpha = 0;
+        ClearEvents();
     }
 
     protected void ChangeRandomPartyHP(float amount)
