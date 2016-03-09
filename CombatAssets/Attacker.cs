@@ -24,6 +24,7 @@ public class Attacker : MonoBehaviour {
 	//Text damagetxt;//used for editing the text when doing damage
 	//GameObject health_txt;
 	Text healthtxt;
+	Text healthtxt2;
 	//GameObject stam_txt;
 	Text stamtxt;
 	
@@ -36,6 +37,7 @@ public class Attacker : MonoBehaviour {
 	
 	public int partynumber;//1,2,3 for us 11,12,13 for them;
 	public GameObject healthBar;
+	public GameObject healthBar2;
 	public float max_health;
 	public float cur_health;
 	public float tic_health;
@@ -46,15 +48,16 @@ public class Attacker : MonoBehaviour {
 	public float tic_stamina;
 	
 	public GameObject readyBar;
+	public GameObject readyBar2;
 	public float max_ready;
 	public float cur_ready;
 	public float tic_ready;
 	
 	GameObject targeting;//who we are attacking
-	public GameObject attack1;
-	public GameObject attack2;
-	public GameObject attack3;
-	public GameObject attack4;
+	//public GameObject attack1;
+	//public GameObject attack2;
+	//public GameObject attack3;
+	//public GameObject attack4;
 
 	float Ddamage, Dready1, Dready2, Dstamina;
 	float initscalex, initscaley;
@@ -254,6 +257,7 @@ public class Attacker : MonoBehaviour {
 			
 		}
 		healthtxt = self.transform.FindChild("Canvas1").FindChild("health_text").GetComponent<Text>();
+		healthtxt2 = self.transform.FindChild("Canvas1A").FindChild("health_text").GetComponent<Text>();
 		damageText = self.transform.FindChild ("Canvas1").FindChild ("dmg_text").gameObject;
 		damageSplash = self.transform.FindChild ("Canvas1").FindChild ("blood_splotch").gameObject;
 		damageText.GetComponent<Text> ().color = new Vector4 (damageText.GetComponent<Text> ().color.r, damageText.GetComponent<Text> ().color.g, damageText.GetComponent<Text> ().color.b, 0);
@@ -354,6 +358,8 @@ public class Attacker : MonoBehaviour {
 		if (cur_ready < 0)
 			cur_ready = 0;
 		SetBar (readyBar, cur_ready/max_ready);
+		if (partynumber < 11)
+		SetBar(readyBar2, cur_ready / max_ready);
 	}
 	
 	public void changeHP(float amount){//Health
@@ -368,10 +374,12 @@ public class Attacker : MonoBehaviour {
 		//{
 			string one = Mathf.Ceil(cur_health).ToString();
 			string two = max_health.ToString();
-			healthtxt.text = one + "/" + two;
+			healthtxt.text = healthtxt2.text = one + "/" + two;
 	   // }
 			
 		SetBar (healthBar, cur_health/max_health);
+		if (partynumber < 11)
+			SetBar(healthBar2, cur_health / max_health);
 	}
 	
 	public void changeS(float amount){//Stamina
