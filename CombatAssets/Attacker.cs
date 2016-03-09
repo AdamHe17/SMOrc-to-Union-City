@@ -238,13 +238,13 @@ public class Attacker : MonoBehaviour {
 			spot2 = self.transform.FindChild("arrow_spotlight").gameObject;
 			EditOpacity(spot, 0);
 			EditOpacity(spot2, 0);
-			h1 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack1").FindChild("highlight").gameObject;
-			h2 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack2").FindChild("highlight").gameObject;
-			h3 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack3").FindChild("highlight").gameObject;
-			h4 = self.transform.FindChild("Canvas2").FindChild("Attacks").FindChild("Attack4").FindChild("highlight").gameObject;
+			h1 = self.transform.FindChild("CombatUI").GetChild(0).FindChild("Canvas").FindChild("Attacks").FindChild("Attack1").FindChild("highlight").gameObject;
+			h2 = self.transform.FindChild("CombatUI").GetChild(0).FindChild("Canvas").FindChild("Attacks").FindChild("Attack2").FindChild("highlight").gameObject;
+			h3 = self.transform.FindChild("CombatUI").GetChild(0).FindChild("Canvas").FindChild("Attacks").FindChild("Attack3").FindChild("highlight").gameObject;
+			h4 = self.transform.FindChild("CombatUI").GetChild(0).FindChild("Canvas").FindChild("Attacks").FindChild("Attack4").FindChild("highlight").gameObject;
 			//Text bitchplease = self.transform.FindChild("Canvas1").FindChild("health").gameObject.transform.GetComponent<Text>();
 			
-			stamtxt = self.transform.FindChild("Canvas1").FindChild("stam_text").GetComponent<Text>();
+			//stamtxt = self.transform.FindChild("Canvas1").FindChild("stam_text").GetComponent<Text>();
 			EditOpacity2(h1, 0);
 			EditOpacity2(h2, 0);
 			EditOpacity2(h3, 0);
@@ -332,7 +332,7 @@ public class Attacker : MonoBehaviour {
 			opacity = 0;
 			EditOpacity (spot, 0);
 			EditOpacity(spot2, 0);
-			EditOpacity2 (h1, 0);
+			EditOpacity2 (h1, 255);
 			EditOpacity2 (h2, 0);
 			EditOpacity2 (h3, 0);
 			EditOpacity2 (h4, 0);
@@ -385,7 +385,7 @@ public class Attacker : MonoBehaviour {
 			{
 				string one = Mathf.Ceil(cur_stamina    ).ToString();
 				string two = max_stamina.ToString();
-				stamtxt.text = one + "/" + two;
+				//stamtxt.text = one + "/" + two;
 			}
 			SetBar (staminaBar, cur_stamina / max_stamina);
 		}

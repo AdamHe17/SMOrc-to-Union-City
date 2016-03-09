@@ -53,6 +53,11 @@ public class DataScript : MonoBehaviour {
 			SetBar(GameObject.Find("Progress").transform.FindChild("Bar").gameObject, Progress / 10000);
 			GameObject.Find("ProgressCaravan").transform.localPosition = new Vector3(-500 + Progress / 10, transform.localPosition.y, transform.localPosition.z);
 		}
+		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("CombatScene"))
+		{
+			UpdateStatusBarsCombat();
+			//UpdateMoveSets();
+		}
 	}
 
 	public void UpdateStatusBars()
@@ -62,11 +67,21 @@ public class DataScript : MonoBehaviour {
 		UpdateStatusBarsHelp(member3,2);
 	}
 
+	public void UpdateStatusBarsCombat()
+	{
+		GameObject mem1 = GameObject.Find("dude1").transform.GetChild(0).gameObject; // FindChild("CombatUI").GetChild(0);
+		GameObject mem2 = GameObject.Find("dude2").transform.GetChild(0).gameObject;
+		GameObject mem3 = GameObject.Find("dude3").transform.GetChild(0).gameObject;
+		UpdateStatusBarsHelp(mem1, 0);
+		UpdateStatusBarsHelp(mem2, 1);
+		UpdateStatusBarsHelp(mem3, 2);
+	}
+
 	void UpdateStatusBarsHelp(GameObject mem,int id)
 	{
 		if (Party[id].exists)
 		{
-			float xp = Party[id].max_health;
+			float xp = Party[id].xp;
 			float xp2lvl = Party[id].xp2lvl;
 			if (xp >= xp2lvl)
 			{
