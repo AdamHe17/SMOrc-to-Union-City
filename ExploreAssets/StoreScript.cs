@@ -35,6 +35,12 @@ public class StoreScript : ExploreScript {
         else if (Input.GetKeyDown(KeyCode.Alpha5)) {
             ExecuteEvents.Execute(event5.gameObject, pointer, ExecuteEvents.submitHandler);
         }
+        if (exploreEvent.alpha != 0 || fastforward) {
+            this.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        else {
+            this.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     void OnMouseDown() {
@@ -68,17 +74,17 @@ public class StoreScript : ExploreScript {
 
         event1.GetComponentInChildren<Text>().text = "1. Heal Player 1 (+10 HP, -1 supp)";
         event1.onClick.AddListener(() => StorePurchase(1));
-        if (DataScript.supply < 1)
+        if (DataScript.supply < 1 || DataScript.Party[0].exists == false)
             event1.interactable = false;
 
         event2.GetComponentInChildren<Text>().text = "2. Heal Player 2 (+10 HP, -1 supp)";
         event2.onClick.AddListener(() => StorePurchase(2));
-        if (DataScript.supply < 1)
+        if (DataScript.supply < 1 || DataScript.Party[1].exists == false)
             event2.interactable = false;
 
         event3.GetComponentInChildren<Text>().text = "3. Heal Player 3 (+10 HP, -1 supp)";
         event3.onClick.AddListener(() => StorePurchase(3));
-        if (DataScript.supply < 1)
+        if (DataScript.supply < 1 || DataScript.Party[2].exists == false)
             event3.interactable = false;
 
         event4.GetComponentInChildren<Text>().text = "4. Energy Bar! (+70 Energy, -10 supp)";
