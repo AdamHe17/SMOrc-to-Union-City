@@ -66,10 +66,12 @@ public class Attacker : MonoBehaviour {
 
 	
 	void Update(){
+		GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
+		persistentDataObject.GetComponent<DataScript>().UpdateStatusBarsCombat();
 		if (!dead) {
 			if (displayingDamage){//damage animation
 				///Get Hold of Splotch+Text
-				Text dmgtxt = null;
+				Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
 				Renderer splotchcolor = new Renderer();
 				if (targeting != null)
 				{
@@ -337,7 +339,7 @@ public class Attacker : MonoBehaviour {
 			opacity = 0;
 			EditOpacity (spot, 0);
 			EditOpacity(spot2, 0);
-			EditOpacity2 (h1, 255);
+			EditOpacity2 (h1, 0);
 			EditOpacity2 (h2, 0);
 			EditOpacity2 (h3, 0);
 			EditOpacity2 (h4, 0);
@@ -499,27 +501,34 @@ public class Attacker : MonoBehaviour {
 		int attack = Random.Range (1, 4);//People 1-3
 		switch (attack) {
 		case 1:
-			targeting = GameObject.Find ("dude1");
-			if (targeting != null && targeting.GetComponent<Attacker>().dead)
-			{//don't attack dead people
-				EnemyAttack ();
-				return;
-			}
+
+					targeting = GameObject.Find("dude1");
+					if (targeting != null && targeting.GetComponent<Attacker>().dead && !DataScript.Party[0].exists)
+					{//don't attack dead people
+						EnemyAttack();
+						return;
+					}
+				
 			break;
 		case 2:
+			  
 			targeting = GameObject.Find ("dude2");
-			if(targeting != null && targeting.GetComponent<Attacker>().dead){
-				EnemyAttack ();
-				return;
-			}
-			break;
-		case 3:
-			targeting = GameObject.Find ("dude3");
-			if (targeting != null && targeting.GetComponent<Attacker>().dead)
+			if (targeting != null && targeting.GetComponent<Attacker>().dead && !DataScript.Party[1].exists)
 			{
 				EnemyAttack ();
 				return;
 			}
+				
+			break;
+		case 3:
+
+				targeting = GameObject.Find("dude3");
+				if (targeting != null && targeting.GetComponent<Attacker>().dead && !DataScript.Party[2].exists)
+				{
+					EnemyAttack();
+					return;
+				}
+			
 			break;
 		}
 		//similar to execute but no AttackStats

@@ -83,11 +83,11 @@ public class DataScript : MonoBehaviour {
 			mem3 = GameObject.Find("dude3").transform.FindChild("CombatUI").GetChild(0).gameObject;
 		//Debug.Log(mem1.GetComponent<RectTransform>().position.x);
 		if(Party[0].exists)
-			UpdateStatusBarsHelp(mem1, 0);
+			UpdateStatusBarsHelp2(mem1, 0);
 	   if(Party[1].exists)
-			UpdateStatusBarsHelp(mem2, 1);
+			UpdateStatusBarsHelp2(mem2, 1);
 	   if(Party[2].exists)
-			UpdateStatusBarsHelp(mem3, 2);
+			UpdateStatusBarsHelp2(mem3, 2);
 	}
 
 	void UpdateStatusBarsHelp(GameObject mem,int id)
@@ -119,11 +119,55 @@ public class DataScript : MonoBehaviour {
 				cur_health = max_health;
 			}
 
-			GameObject Health = mem.transform.parent.FindChild("CanvasA").FindChild("Health").gameObject;//FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
-			GameObject Stamina = mem.transform.parent.FindChild("CanvasA").FindChild("Stamina").gameObject;//FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
+			GameObject Health = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
+			GameObject Stamina = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
 			//Debug.Log(id);
 			Text healthtxt = mem.transform.FindChild("HPValue").GetComponent<Text>();
 			Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();
+			Text lvltxt = mem.transform.FindChild("Level").GetComponent<Text>();
+			lvltxt.text = "Level: " + (Party[id].level).ToString();
+			SetBar(Health, cur_health / max_health);
+			SetBar(Stamina, cur_stamina / cur_health);
+			//Debug.Log(max_health);
+			healthtxt.text = Mathf.Ceil(cur_health).ToString() + "/" + max_health.ToString();
+			stamtxt.text = Mathf.Ceil(cur_stamina).ToString() + "/" + max_stamina.ToString();
+		}
+	}
+
+	void UpdateStatusBarsHelp2(GameObject mem, int id)
+	{
+		if (Party[id].exists)
+		{
+			float xp = Party[id].xp;
+			float xp2lvl = Party[id].xp2lvl;
+			if (xp >= xp2lvl)
+			{
+				Party[id].xp -= Party[id].xp2lvl;
+				Party[id].xp2lvl *= 1.5f;
+				Party[id].level++;
+				Party[id].max_health += UnityEngine.Random.Range(10, 15);
+				Party[id].max_stamina += UnityEngine.Random.Range(10, 15);
+			}
+			float cur_stamina = Party[id].cur_stamina;
+			float cur_health = Party[id].cur_health;
+			float max_stamina = Party[id].max_stamina;
+			float max_health = Party[id].max_health;
+			if (cur_stamina >= max_stamina)
+			{
+				Party[id].cur_stamina = max_stamina;
+				cur_stamina = max_stamina;
+			}
+			if (cur_health >= max_health)
+			{
+				Party[id].cur_health = max_health;
+				cur_health = max_health;
+			}
+
+			GameObject Health = mem.transform.parent.parent.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
+			GameObject Stamina = mem.transform.parent.parent.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
+			//Debug.Log(id);
+			Text healthtxt = mem.transform.parent.parent.FindChild("Canvas1").FindChild("health_text").GetComponent<Text>();
+			Text stamtxt = mem.transform.parent.parent.FindChild("Canvas1").FindChild("stam_text").GetComponent<Text>();
 			Text lvltxt = mem.transform.FindChild("Level").GetComponent<Text>();
 			lvltxt.text = "Level: " + (Party[id].level).ToString();
 			SetBar(Health, cur_health / max_health);
