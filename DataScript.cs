@@ -34,6 +34,7 @@ public class DataScript : MonoBehaviour {
 				UpdateStatusBars();
 			}
 			UpdateStatusBars();
+			UpdateMoveSets();
 		}
 		
 	}
@@ -78,7 +79,20 @@ public class DataScript : MonoBehaviour {
 		stamtxt.text = Mathf.Ceil(cur_stamina).ToString() + "/" + max_stamina.ToString();
 	}
 
+	public void UpdateMoveSets()
+	{
+		UpdateMoveSetsHelp(member1, 0);
+		UpdateMoveSetsHelp(member2, 1);
+		UpdateMoveSetsHelp(member3, 2);
+	}
 
+	void UpdateMoveSetsHelp(GameObject mem, int id)
+	{
+		for (int attackid = 0; attackid < 4; attackid++){
+			GameObject temp = mem.transform.FindChild("Canvas").FindChild("Attacks").GetChild(attackid).gameObject;
+			//TODO: add stuff for editing movetxt
+		}
+	}
 
 	void SetBar(GameObject bar, float new_stat)
 	{
