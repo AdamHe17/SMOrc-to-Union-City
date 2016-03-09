@@ -100,7 +100,7 @@ public class ExploreScript : MonoBehaviour {
         if (Input.GetKey(KeyCode.D)) {
             scrollingBg.transform.Translate(Vector2.left * Time.deltaTime * moveSpeed);
             pos = -scrollingBg.transform.position.x;
-            Debug.Log(moveSpeed);
+            Debug.Log("hi");
 
             // Generate Scrolling Background
             if (Math.Abs((pos - (18.8f * n_backgrounds - 9.4f))) < 1 && n_backgrounds < 5) {
@@ -117,20 +117,17 @@ public class ExploreScript : MonoBehaviour {
                     GameObject temp = (GameObject)Instantiate(Resources.Load("Store"));
                     temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                     temp.transform.parent = scrollingBg.transform;
-                    Debug.Log(temp.transform.position.x);
                     storeTimer = 3;
                 }
                 else if (check < 4) {
                     GameObject temp = (GameObject)Instantiate(Resources.Load("Building"));
                     temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                     temp.transform.parent = scrollingBg.transform;
-                    Debug.Log(temp.transform.position.x);
                 }
                 else if (check > 3) {
                     GameObject temp = (GameObject)Instantiate(Resources.Load("House"));
                     temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                     temp.transform.parent = scrollingBg.transform;
-                    Debug.Log(temp.transform.position.x);
                 }
                 storeTimer -= 1;
                 lastBuildingPos = pos + 9.4f;
@@ -229,12 +226,11 @@ public class ExploreScript : MonoBehaviour {
         else if (type == 1) {
             exploreEvent.alpha = 1;
             oneline.text = "You ran out of Action Points";
-            timewarp = 250f;
-            Debug.Log(timewarp);
-            fastforward = true;
+            // fastforward = true;
             SceneManager.LoadScene("CombatScene");
-            //event1.GetComponentInChildren<Text>().text = "1. End the day";
-            //event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
+            event1.GetComponentInChildren<Text>().text = "1. Ok";
+            event1.onClick.AddListener(() => timewarp = 30f);
+            event1.onClick.AddListener(() => Confirmed());
         }
         else /*if(!fastforward)*/{
             exploreEvent.alpha = 1;

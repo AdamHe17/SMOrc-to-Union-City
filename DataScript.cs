@@ -41,7 +41,7 @@ public class DataScript : MonoBehaviour {
 
 	void Update()
 	{
-		//SetBar(GameObject.Find("Progress").transform.FindChild("Bar").gameObject, Progress / 10000);
+		// SetBar(GameObject.Find("Progress").transform.FindChild("Bar").gameObject, Progress / 10000);
 	}
 
 	public void UpdateStatusBars()
