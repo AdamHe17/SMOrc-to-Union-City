@@ -66,11 +66,9 @@ public class ExploreScript : MonoBehaviour {
         Supply = GameObject.Find("SupplyValue").GetComponent<Text>();
         Supply.text = DataScript.supply.ToString();
 
-        if (!DataScript.gamestarted2)
-        {
+        if (!DataScript.gamestarted2) {
             DataScript.gamestarted2 = !DataScript.gamestarted2;
-            for (int i = 1; i <= actionPointLimit; i++)
-            {
+            for (int i = 1; i <= actionPointLimit; i++) {
                 String tempName = String.Format("AP{0}", i.ToString());
                 actionPoints.Add(tempName, GameObject.Find(tempName).GetComponent<Image>());
                 actionPoints[tempName].color = Color.red;
@@ -103,16 +101,14 @@ public class ExploreScript : MonoBehaviour {
     void Update() {
         //Keyboard Inputs
         if (Input.GetKey(KeyCode.D)) {
-            if (!fastforward)
-            {
+            if (!fastforward) {
                 scrollingBg.transform.Translate(Vector2.left * Time.deltaTime * moveSpeed);
                 pos = -scrollingBg.transform.position.x;
                 DataScript.Progress += moveSpeed / 10;
                 //Debug.Log("hi");
 
                 // Generate Scrolling Background
-                if (Math.Abs((pos - (18.8f * n_backgrounds - 9.4f))) < 1 && n_backgrounds < 5)
-                {
+                if (Math.Abs((pos - (18.8f * n_backgrounds - 9.4f))) < 1 && n_backgrounds < 5) {
                     GameObject temp = (GameObject)Instantiate(Resources.Load("ScrollingBackground"));
                     temp.transform.position = new Vector2(pos + 18.8f, 0.28f);
                     n_backgrounds += 1;
@@ -120,25 +116,26 @@ public class ExploreScript : MonoBehaviour {
                 }
 
                 // Generate Buildings
-                if (pos > lastBuildingPos)
-                {
-                    int check = buildingRnd.Next(0, 10);
-                    if (storeTimer == 0)
-                    {
+                if (pos > lastBuildingPos) {
+                    int check = buildingRnd.Next(0, 20);
+                    if (storeTimer == 0) {
                         GameObject temp = (GameObject)Instantiate(Resources.Load("Store"));
                         temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                         temp.transform.parent = scrollingBg.transform;
-                        storeTimer = 3;
+                        storeTimer = 5;
                     }
-                    else if (check < 4)
-                    {
+                    else if (check < 1) {//8
                         GameObject temp = (GameObject)Instantiate(Resources.Load("Building"));
                         temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                         temp.transform.parent = scrollingBg.transform;
                     }
-                    else if (check > 3)
-                    {
+                    else if (check < 2) {//19
                         GameObject temp = (GameObject)Instantiate(Resources.Load("House"));
+                        temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
+                        temp.transform.parent = scrollingBg.transform;
+                    }
+                    else if (check < 20) {
+                        GameObject temp = (GameObject)Instantiate(Resources.Load("Dude"));
                         temp.transform.position = new Vector2(pos + 9.4f, 1.2f);
                         temp.transform.parent = scrollingBg.transform;
                     }
@@ -170,66 +167,51 @@ public class ExploreScript : MonoBehaviour {
             ExecuteEvents.Execute(event5.gameObject, pointer, ExecuteEvents.submitHandler);
         }
 
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
             Image temp = GameObject.Find("ExploreUI").gameObject.transform.GetChild(i + 3).GetChild(7).GetComponent<Image>();
-            if (!DataScript.Party[i].exists)
-            {
+            if (!DataScript.Party[i].exists) {
                 temp.color = new Color(temp.color.r, temp.color.g, temp.color.b, 1);
             }
-            else
-            {
+            else {
                 temp.color = new Color(temp.color.r, temp.color.g, temp.color.b, 0);
             }
         }
 
-            // Moving the Sun
-            if (!dayover)
-            {
-                //moving the sun up/down
-
-                if (sun.transform.position.x <= -7.5)
-                {
-                    CustomTransUp(sun, 0.1f * timewarp);
-                }
-                else if (sun.transform.position.x <= -7)
-                {
-                    CustomTransUp(sun, 0.05f * timewarp);
-                }
-                else if (sun.transform.position.x <= -6.5)
-                {
-                    CustomTransUp(sun, 0.03f * timewarp);
-                }
-                else if (sun.transform.position.x <= 0)
-                {
-                    CustomTransUp(sun, 0.005f * timewarp);
-                }
-                else if (sun.transform.position.x <= 6.5)
-                {
-                    CustomTransDown(sun, 0.005f * timewarp);
-                }
-                else if (sun.transform.position.x <= 7)
-                {
-                    CustomTransDown(sun, 0.03f * timewarp);
-                }
-                else if (sun.transform.position.x <= 7.5)
-                {
-                    CustomTransDown(sun, 0.05f * timewarp);
-                }
-                else
-                {
-                    CustomTransDown(sun, 0.1f * timewarp);
-                }
-
-                if (sun.transform.position.x <= 3)
-                {
-                    skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .005f * timewarp * -0.07059f, skycolor.color.g + Time.fixedDeltaTime * .005f * timewarp * .596078f, skycolor.color.b + Time.fixedDeltaTime * .005f * timewarp * 0.321569f);
-                }
-                else
-                {
-                    skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .01f * timewarp * 0.160784f, skycolor.color.g + Time.fixedDeltaTime * .01f * timewarp * -.86275f, skycolor.color.b + Time.fixedDeltaTime * .01f * timewarp * -0.61961f);
-                }
+        // Moving the Sun
+        if (!dayover) {
+            //moving the sun up/down
+            if (sun.transform.position.x <= -7.5) {
+                CustomTransUp(sun, 0.1f * timewarp);
             }
+            else if (sun.transform.position.x <= -7) {
+                CustomTransUp(sun, 0.05f * timewarp);
+            }
+            else if (sun.transform.position.x <= -6.5) {
+                CustomTransUp(sun, 0.03f * timewarp);
+            }
+            else if (sun.transform.position.x <= 0) {
+                CustomTransUp(sun, 0.005f * timewarp);
+            }
+            else if (sun.transform.position.x <= 6.5) {
+                CustomTransDown(sun, 0.005f * timewarp);
+            }
+            else if (sun.transform.position.x <= 7) {
+                CustomTransDown(sun, 0.03f * timewarp);
+            }
+            else if (sun.transform.position.x <= 7.5) {
+                CustomTransDown(sun, 0.05f * timewarp);
+            }
+            else {
+                CustomTransDown(sun, 0.1f * timewarp);
+            }
+
+            if (sun.transform.position.x <= 3) {
+                skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .005f * timewarp * -0.07059f, skycolor.color.g + Time.fixedDeltaTime * .005f * timewarp * .596078f, skycolor.color.b + Time.fixedDeltaTime * .005f * timewarp * 0.321569f);
+            }
+            else {
+                skycolor.color = new Color(skycolor.color.r + Time.fixedDeltaTime * .01f * timewarp * 0.160784f, skycolor.color.g + Time.fixedDeltaTime * .01f * timewarp * -.86275f, skycolor.color.b + Time.fixedDeltaTime * .01f * timewarp * -0.61961f);
+            }
+        }
         //moving the sun left/right
         if (sun.transform.position.x <= 8.43) {
             sun.transform.Translate(Vector2.right * Time.fixedDeltaTime * 0.03f * timewarp);
@@ -273,10 +255,9 @@ public class ExploreScript : MonoBehaviour {
 
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
             event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
-           // SceneManager.LoadScene("CombatScene");
+            // SceneManager.LoadScene("CombatScene");
         }
-        else if (type == 1 && !GameObject.Find("EventSystem").GetComponent<ExploreScript>().fastforward)
-        {
+        else if (type == 1 && !GameObject.Find("EventSystem").GetComponent<ExploreScript>().fastforward) {
             exploreEvent.alpha = 1;
             oneline.text = "You ran out of Action Points";
 
@@ -290,7 +271,7 @@ public class ExploreScript : MonoBehaviour {
 
 
         }
-        else if (!fastforward){
+        else if (!fastforward) {
             exploreEvent.alpha = 1;
             oneline.text = "It's been a long day";
 
@@ -362,18 +343,15 @@ public class ExploreScript : MonoBehaviour {
         ClearEvents();
     }
 
-    protected void ChangeRandomPartyHP(float amount)
-    {
+    protected void ChangeRandomPartyHP(float amount) {
         int id = -1;
-        while (id < 0)
-        {
+        while (id < 0) {
             int rand = rnd.Next(0, 3);
             if (DataScript.Party[rand].exists)
                 id = rand;
         }
         DataScript.Party[id].cur_health -= amount;
-        if (DataScript.Party[id].cur_health <= 0)
-        {
+        if (DataScript.Party[id].cur_health <= 0) {
             DataScript.Party[id] = new Person(false);
         }
 

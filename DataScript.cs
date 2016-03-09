@@ -28,8 +28,8 @@ public class DataScript : MonoBehaviour {
 				Debug.Log("hello");
 				gamestarted = !gamestarted;
 				DataScript.Party[0] = new Person(true);
-				DataScript.Party[1] = new Person(true);
-				DataScript.Party[2] = new Person(true);
+				DataScript.Party[1] = new Person(false);
+				DataScript.Party[2] = new Person(false);
 				//Debug.Log(DataScript.Party[0].cur_health);
 				member1 = GameObject.Find("Member1");
 				member2 = GameObject.Find("Member2");

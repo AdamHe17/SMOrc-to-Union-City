@@ -88,8 +88,9 @@ public class ExploreBuildingScript: ExploreScript {
 
         event1.GetComponentInChildren<Text>().text = "1. Venture further into the building. (-1 AP)";
         event1.onClick.AddListener(() => InsideEvent(1));
-        if (actionCount < 1)
+        if (actionCount < 1) {
             event1.interactable = false;
+        }
 
         event2.GetComponentInChildren<Text>().text = "2. Leave this building.";
         event2.onClick.AddListener(() => Confirmed());
