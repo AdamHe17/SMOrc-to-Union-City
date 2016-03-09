@@ -37,6 +37,12 @@ public class DataScript : MonoBehaviour {
 		}
 		
 	}
+
+	void Update()
+	{
+		SetBar(GameObject.Find("Progress").transform.FindChild("Bar").gameObject, Progress / 10000);
+	}
+
 	public void UpdateStatusBars()
 	{
 		UpdateStatusBarsHelp(member1,0);
@@ -67,10 +73,13 @@ public class DataScript : MonoBehaviour {
 		Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();
 		SetBar(Health, cur_health / max_health);
 		SetBar(Stamina, cur_stamina / cur_health);
-		Debug.Log(max_health);
+		//Debug.Log(max_health);
 		healthtxt.text = Mathf.Ceil(cur_health).ToString() + "/" + max_health.ToString();
 		stamtxt.text = Mathf.Ceil(cur_stamina).ToString() + "/" + max_stamina.ToString();
 	}
+
+
+
 	void SetBar(GameObject bar, float new_stat)
 	{
 		bar.transform.localScale = new Vector3(new_stat, bar.transform.localScale.y, bar.transform.localScale.z);
@@ -86,7 +95,9 @@ public struct Person
 	public float cur_health, max_health, cur_stamina, max_stamina, xp, xp2lvl;
 	private int hair_type, skin_type, shirt_type, pants_type, shoes_type;
 	public Color hair_color, skin_color, shirt_color, pants_color, shoes_color;
+	
 	public bool exists;
+	public Attack[] moveset;
 	public Person(bool exist)
 	{
 		exists = exist;
@@ -102,6 +113,11 @@ public struct Person
 		shirt_type = UnityEngine.Random.Range(1, 1);
 		pants_type = UnityEngine.Random.Range(1, 1);
 		shoes_type = UnityEngine.Random.Range(1, 1);
+		moveset = new Attack[4];
+		moveset[0] = new Attack(0);
+		moveset[1] = new Attack(1);
+		moveset[2] = new Attack(2);
+		moveset[3] = new Attack(3);
 		//default color
 		hair_color = skin_color = shirt_color = pants_color = shoes_color = Color.HSVToRGB(0, 0, 1);
 		switch (hair_type)
@@ -131,4 +147,45 @@ public struct Person
 		}
 	}
 	
+}
+
+public struct Attack
+{
+	public int id;
+	public float damage_min;
+	public float damage_max;
+	public float stamina_cost;
+	public float hit_stun;
+	public Attack(int movno)
+	{
+		id = movno;
+		damage_min = damage_max = stamina_cost = hit_stun = 10;
+		switch (movno)
+		{
+			case 1://punch
+				damage_min = 10;
+				damage_max = 15;
+				stamina_cost = 15;
+				hit_stun = 35;
+				break;
+			case 2://kick
+				damage_min = 15;
+				damage_max = 25;
+				stamina_cost = 20;
+				hit_stun = 20;
+				break;
+			case 3://poke
+				damage_min = 1;
+				damage_max = 3;
+				stamina_cost = 5;
+				hit_stun = 50;
+				break;
+			case 4:
+				damage_min = 50;
+				damage_max = 75;
+				stamina_cost = 80;
+				hit_stun = 100;
+				break;
+		}
+	}
 }

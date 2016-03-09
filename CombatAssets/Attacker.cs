@@ -415,31 +415,31 @@ public class Attacker : MonoBehaviour {
 				EditOpacity2 (h2, 0);
 				EditOpacity2 (h3, 0);
 				EditOpacity2 (h4, 0);
-				AttackStats = transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack1").GetComponent<Attack> ();
+				AttackStats = DataScript.Party[partynumber-1].moveset[0];//transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack1").GetComponent<Attack> ();
 				break;
 			case 2:
 				EditOpacity2 (h1, 0);
 				EditOpacity2 (h2, 255);
 				EditOpacity2 (h3, 0);
 				EditOpacity2 (h4, 0);
-				AttackStats = transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack2").GetComponent<Attack> ();
+				AttackStats = DataScript.Party[partynumber - 1].moveset[1];
 				break;
 			case 3:
 				EditOpacity2 (h1, 0);
 				EditOpacity2 (h2, 0);
 				EditOpacity2 (h3, 255);
 				EditOpacity2 (h4, 0);
-				AttackStats = transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack3").GetComponent<Attack> ();
+				AttackStats = DataScript.Party[partynumber - 1].moveset[2];
 				break;
 			case 4:
 				EditOpacity2 (h1, 0);
 				EditOpacity2 (h2, 0);
 				EditOpacity2 (h3, 0);
 				EditOpacity2 (h4, 255);
-				AttackStats = transform.FindChild ("Canvas2").FindChild ("Attacks").FindChild ("Attack4").GetComponent<Attack> ();
+				AttackStats = DataScript.Party[partynumber - 1].moveset[3];
 				break;
 			}
-			staminaCost = AttackStats.staminaCost;
+			staminaCost = AttackStats.stamina_cost;
 			if (cur_stamina < staminaCost)//don't have the stamina, don't select
 			{
 				man.clickable = false;
@@ -452,9 +452,9 @@ public class Attacker : MonoBehaviour {
 			}
 			//setup stats for being able to attack an enemy
 			curAttack = attackno;
-			minDamage = AttackStats.minDamage;
-			maxDamage = AttackStats.maxDamage;
-			hitStun = AttackStats.hitStun;
+			minDamage = AttackStats.damage_min;
+			maxDamage = AttackStats.damage_max;
+			hitStun = AttackStats.hit_stun;
 			man.clickable = true;
 		}
 	}
