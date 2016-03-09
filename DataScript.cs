@@ -126,6 +126,7 @@ public class DataScript : MonoBehaviour {
 
 			GameObject Health = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
 			GameObject Stamina = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
+            GameObject XP = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("XP").gameObject;
 			//Debug.Log(id);
 			Text healthtxt = mem.transform.FindChild("HPValue").GetComponent<Text>();
 			Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();
@@ -133,6 +134,7 @@ public class DataScript : MonoBehaviour {
 			lvltxt.text = "Level: " + (Party[id].level).ToString();
 			SetBar(Health, cur_health / max_health);
 			SetBar(Stamina, cur_stamina / cur_health);
+            SetBar(XP, xp / xp2lvl);
 			//Debug.Log(max_health);
 			healthtxt.text = Mathf.Ceil(cur_health).ToString() + "/" + max_health.ToString();
 			stamtxt.text = Mathf.Ceil(cur_stamina).ToString() + "/" + max_stamina.ToString();

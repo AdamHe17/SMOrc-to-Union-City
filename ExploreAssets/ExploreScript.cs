@@ -18,7 +18,7 @@ public class ExploreScript : MonoBehaviour {
     protected static Button endDayButton;
     protected static Dictionary<string, Image> actionPoints = new Dictionary<string, Image>();
     protected static int actionCount;
-    protected static int actionPointLimit = 5;
+    protected int actionPointLimit = 5;
 
     protected static Text Supply;
 
@@ -44,7 +44,7 @@ public class ExploreScript : MonoBehaviour {
         DontDestroyOnLoad(persistentDataObject);
 
         scrollingBg = GameObject.Find("ScrollingBackground");
-        moveSpeed = 50f;
+        moveSpeed = 3f;
         n_backgrounds = 1;
         lastBuildingPos = 4.9f;
         storeTimer = 2;
@@ -60,6 +60,7 @@ public class ExploreScript : MonoBehaviour {
         Supply = GameObject.Find("SupplyValue").GetComponent<Text>();
         Supply.text = DataScript.supply.ToString();
 
+        actionCount = actionPointLimit;
         if (!DataScript.gamestarted2) {
             DataScript.gamestarted2 = !DataScript.gamestarted2;
             for (int i = 1; i <= actionPointLimit; i++) {
@@ -68,7 +69,6 @@ public class ExploreScript : MonoBehaviour {
                 actionPoints[tempName].color = Color.red;
             }
         }
-        actionCount = actionPointLimit;
 
         exploreEvent = GameObject.Find("ExploreEvent").GetComponent<CanvasGroup>();
         exploreEvent.alpha = 0;
@@ -83,7 +83,7 @@ public class ExploreScript : MonoBehaviour {
         event5 = GameObject.Find("Event5").GetComponent<Button>();
 
 
-        timewarp = 8f;
+        timewarp = 10f;
         sun = GameObject.Find("Sun");
         sky = GameObject.Find("sky");
 
