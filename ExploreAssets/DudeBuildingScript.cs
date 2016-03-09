@@ -72,6 +72,12 @@ public class DudeBuildingScript : ExploreScript {
 
         DataScript.population += 1;
 
+        data.GetComponent<DataScript>().member1 = GameObject.Find("Member1");
+        data.GetComponent<DataScript>().member2 = GameObject.Find("Member2");
+        data.GetComponent<DataScript>().member3 = GameObject.Find("Member3");
+        data.GetComponent<DataScript>().UpdateStatusBars();
+        data.GetComponent<DataScript>().UpdateMoveSets();
+
         DataScript.supply -= cost;
         Supply.text = (int.Parse(Supply.text) - cost).ToString();
 
