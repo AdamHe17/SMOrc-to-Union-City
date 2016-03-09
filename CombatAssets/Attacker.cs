@@ -66,12 +66,13 @@ public class Attacker : MonoBehaviour {
 
 	
 	void Update(){
-		GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
-		persistentDataObject.GetComponent<DataScript>().UpdateStatusBarsCombat();
+		//GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
+		//persistentDataObject.GetComponent<DataScript>().UpdateStatusBarsCombat();
 		if (!dead) {
 			if (displayingDamage){//damage animation
 				///Get Hold of Splotch+Text
-				Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
+				//Text dmgtxt = targeting.transform.FindChild("Canvas1").FindChild("dmg_text").GetComponent<Text>();
+				Text dmgtxt = null;
 				Renderer splotchcolor = new Renderer();
 				if (targeting != null)
 				{
@@ -384,7 +385,13 @@ public class Attacker : MonoBehaviour {
 			
 		SetBar (healthBar, cur_health/max_health);
 		if (partynumber < 11)
+		{
 			SetBar(healthBar2, cur_health / max_health);
+			DataScript.Party[partynumber - 1].cur_health = cur_health;
+			GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
+			persistentDataObject.GetComponent<DataScript>().UpdateStatusBarsCombat();
+		}
+		
 	}
 	
 	public void changeS(float amount){//Stamina
@@ -398,6 +405,9 @@ public class Attacker : MonoBehaviour {
 			{
 				string one = Mathf.Ceil(cur_stamina    ).ToString();
 				string two = max_stamina.ToString();
+				DataScript.Party[partynumber - 1].cur_stamina = cur_stamina;
+				GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
+				persistentDataObject.GetComponent<DataScript>().UpdateStatusBarsCombat();
 				//stamtxt.text = one + "/" + two;
 			}
 			SetBar (staminaBar, cur_stamina / max_stamina);
@@ -499,6 +509,11 @@ public class Attacker : MonoBehaviour {
 		if (DataScript.population == 0)//if we are dead, don't spam attack
 			return;
 		int attack = Random.Range (1, 4);//People 1-3
+		if (!DataScript.Party[attack - 1].exists)
+		{
+			EnemyAttack();
+			return;
+		}
 		switch (attack) {
 		case 1:
 
