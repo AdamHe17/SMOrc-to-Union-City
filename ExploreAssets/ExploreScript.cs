@@ -55,7 +55,6 @@ public class ExploreScript : MonoBehaviour {
         store = GameObject.Find("Store");
 
         sun = GameObject.Find("Sun");
-        //Debug.Log(sun);
         sky = GameObject.Find("sky");
 
         skycolor = sky.transform.GetComponent<SpriteRenderer>();
@@ -63,12 +62,6 @@ public class ExploreScript : MonoBehaviour {
         endDayButton = GameObject.Find("EndDayButton").GetComponent<Button>();
         endDayButton.onClick.AddListener(() => EndDay(2));
 
-        //Image member1 = GameObject.Find("Member1").GetComponent<Image>();
-        //member1HP = member1.GetComponentsInChildren<Text>()[3];
-
-        //member1HP.text = Math.Ceiling(DataScript.Party[0].cur_health).ToString();
-        //Debug.Log(DataScript.Party[0].cur_health);
-        //Debug.Log(DataScript.p1hp);
         Supply = GameObject.Find("SupplyValue").GetComponent<Text>();
         Supply.text = DataScript.supply.ToString();
 
@@ -107,7 +100,7 @@ public class ExploreScript : MonoBehaviour {
         if (Input.GetKey(KeyCode.D)) {
             scrollingBg.transform.Translate(Vector2.left * Time.deltaTime * moveSpeed);
             pos = -scrollingBg.transform.position.x;
-            Debug.Log(pos);
+            Debug.Log(moveSpeed);
 
             // Generate Scrolling Background
             if (Math.Abs((pos - (18.8f * n_backgrounds - 9.4f))) < 1 && n_backgrounds < 5) {
@@ -203,8 +196,6 @@ public class ExploreScript : MonoBehaviour {
                     EndDay(0);
             }
         }
-
-        // }
     }
 
     //these are for moving the sun up and down
@@ -284,7 +275,6 @@ public class ExploreScript : MonoBehaviour {
         event1.GetComponentInChildren<Text>().text = "";
         event1.GetComponent<Button>().onClick.RemoveAllListeners();
         event1.interactable = true;
-        //event1.
 
         event2.GetComponentInChildren<Text>().text = "";
         event2.GetComponent<Button>().onClick.RemoveAllListeners();
