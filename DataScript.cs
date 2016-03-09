@@ -16,7 +16,7 @@ public class DataScript : MonoBehaviour {
 	public static bool gamestarted;
 	public static bool gamestarted2;
 	public static float Progress;
-	GameObject member1, member2, member3;
+	public GameObject member1, member2, member3;
 	//public static Sprite Att0, Att1, Att2, Att3, Att4, Att5, Att6, Att7, Att8;
 	public Sprite supersayan;
 	void Awake()
@@ -69,13 +69,25 @@ public class DataScript : MonoBehaviour {
 
 	public void UpdateStatusBarsCombat()
 	{
-		GameObject mem1 = GameObject.Find("dude1").transform.FindChild("CombatUI").GetChild(0).gameObject; // FindChild("CombatUI").GetChild(0);
-		GameObject mem2 = GameObject.Find("dude2").transform.FindChild("CombatUI").GetChild(0).gameObject;
-		GameObject mem3 = GameObject.Find("dude3").transform.FindChild("CombatUI").GetChild(0).gameObject;
+		GameObject mem1, mem2, mem3;
+		//GameObject mem1 = null;
+		//GameObject mem2 = null;
+		//GameObject mem3 = null;
+		mem1 = mem2 = mem3 = null;
+		if(Party[0].exists)
+			mem1 = GameObject.Find("dude1").transform.FindChild("CombatUI").GetChild(0).gameObject; // FindChild("CombatUI").GetChild(0);
+		if(Party[1].exists)
+
+			mem2 = GameObject.Find("dude2").transform.FindChild("CombatUI").GetChild(0).gameObject;
+		if(Party[2].exists)
+			mem3 = GameObject.Find("dude3").transform.FindChild("CombatUI").GetChild(0).gameObject;
 		//Debug.Log(mem1.GetComponent<RectTransform>().position.x);
-		UpdateStatusBarsHelp(mem1, 0);
-		UpdateStatusBarsHelp(mem2, 1);
-		UpdateStatusBarsHelp(mem3, 2);
+		if(Party[0].exists)
+			UpdateStatusBarsHelp(mem1, 0);
+	   if(Party[1].exists)
+			UpdateStatusBarsHelp(mem2, 1);
+	   if(Party[2].exists)
+			UpdateStatusBarsHelp(mem3, 2);
 	}
 
 	void UpdateStatusBarsHelp(GameObject mem,int id)
@@ -106,8 +118,9 @@ public class DataScript : MonoBehaviour {
 				Party[id].cur_health = max_health;
 				cur_health = max_health;
 			}
-			GameObject Health = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
-			GameObject Stamina = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
+
+			GameObject Health = mem.transform.parent.FindChild("CanvasA").FindChild("Health").gameObject;//FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
+			GameObject Stamina = mem.transform.parent.FindChild("CanvasA").FindChild("Stamina").gameObject;//FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
 			//Debug.Log(id);
 			Text healthtxt = mem.transform.FindChild("HPValue").GetComponent<Text>();
 			Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();

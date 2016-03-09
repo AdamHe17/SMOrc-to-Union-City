@@ -257,6 +257,7 @@ public class Attacker : MonoBehaviour {
 			
 		}
 		healthtxt = self.transform.FindChild("Canvas1").FindChild("health_text").GetComponent<Text>();
+		if (partynumber < 11)
 		healthtxt2 = self.transform.FindChild("Canvas1A").FindChild("health_text").GetComponent<Text>();
 		damageText = self.transform.FindChild ("Canvas1").FindChild ("dmg_text").gameObject;
 		damageSplash = self.transform.FindChild ("Canvas1").FindChild ("blood_splotch").gameObject;
@@ -374,7 +375,9 @@ public class Attacker : MonoBehaviour {
 		//{
 			string one = Mathf.Ceil(cur_health).ToString();
 			string two = max_health.ToString();
-			healthtxt.text = healthtxt2.text = one + "/" + two;
+			healthtxt.text = one + "/" + two;
+		if (partynumber < 11)
+			healthtxt2.text = one + "/" + two;
 	   // }
 			
 		SetBar (healthBar, cur_health/max_health);
