@@ -42,6 +42,12 @@ public class DudeBuildingScript : ExploreScript {
         else if (Input.GetKeyDown(KeyCode.Alpha5)) {
             ExecuteEvents.Execute(event5.gameObject, pointer, ExecuteEvents.submitHandler);
         }
+        if (exploreEvent.alpha != 0 || fastforward) {
+            this.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        else {
+            this.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     void TalkToDude() {

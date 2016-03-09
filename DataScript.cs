@@ -119,8 +119,8 @@ public class DataScript : MonoBehaviour {
 				cur_health = max_health;
 			}
 
-			GameObject Health = mem.transform.parent.FindChild("CanvasA").FindChild("Health").gameObject;//FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
-			GameObject Stamina = mem.transform.parent.FindChild("CanvasA").FindChild("Stamina").gameObject;//FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
+			GameObject Health = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
+			GameObject Stamina = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
 			//Debug.Log(id);
 			Text healthtxt = mem.transform.FindChild("HPValue").GetComponent<Text>();
 			Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();

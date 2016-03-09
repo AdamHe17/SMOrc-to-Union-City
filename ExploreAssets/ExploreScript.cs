@@ -15,7 +15,7 @@ public class ExploreScript : MonoBehaviour {
     protected int n_backgrounds, storeTimer;
     protected System.Random buildingRnd = new System.Random();
 
-    Button endDayButton;
+    protected static Button endDayButton;
     protected static Dictionary<string, Image> actionPoints = new Dictionary<string, Image>();
     protected static int actionCount;
     protected static int actionPointLimit = 5;
@@ -32,8 +32,8 @@ public class ExploreScript : MonoBehaviour {
     GameObject sun;
     GameObject sky;
     SpriteRenderer skycolor;
-    public float timewarp;
-    public bool fastforward = false;
+    public static float timewarp;
+    public static bool fastforward = false;
     bool dayover = false;
 
     // Use this for initialization
@@ -94,12 +94,11 @@ public class ExploreScript : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //Keyboard Inputs
-        if (Input.GetKey(KeyCode.D)) {
+        if (Input.GetKey(KeyCode.D) && exploreEvent.alpha != 1) {
             if (!fastforward) {
                 scrollingBg.transform.Translate(Vector2.left * Time.deltaTime * moveSpeed);
                 pos = -scrollingBg.transform.position.x;
                 DataScript.Progress += moveSpeed / 10;
-                //Debug.Log("hi");
 
                 // Generate Buildings
                 if (pos > lastBuildingPos) {
@@ -130,7 +129,7 @@ public class ExploreScript : MonoBehaviour {
                 }
             }
         }
-        else if (Input.GetKey(KeyCode.A) && pos > 0f) {
+        else if (Input.GetKey(KeyCode.A) && pos > 0f && exploreEvent.alpha != 1 && !fastforward) {
             scrollingBg.transform.Translate(Vector2.right * Time.deltaTime * moveSpeed);
             pos = -scrollingBg.transform.position.x;
         }
@@ -237,13 +236,14 @@ public class ExploreScript : MonoBehaviour {
         ClearEvents();
         if (type == 0) {
             exploreEvent.alpha = 1;
+            endDayButton.enabled = false;
             oneline.text = "The sun has set, prepare to fight";
 
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
             event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
             // SceneManager.LoadScene("CombatScene");
         }
-        else if (type == 1 && !GameObject.Find("EventSystem").GetComponent<ExploreScript>().fastforward) {
+        else if (type == 1 && !fastforward) {
             exploreEvent.alpha = 1;
             oneline.text = "You ran out of Action Points";
 
@@ -251,8 +251,9 @@ public class ExploreScript : MonoBehaviour {
             event2.onClick.AddListener(() => Confirmed());
 
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
-            event1.onClick.AddListener(() => GameObject.Find("EventSystem").GetComponent<ExploreScript>().timewarp = 250f);
-            event1.onClick.AddListener(() => GameObject.Find("EventSystem").GetComponent<ExploreScript>().fastforward = true);
+            event1.onClick.AddListener(() => timewarp = 250f);
+            event1.onClick.AddListener(() => fastforward = true);
+            event1.onClick.AddListener(() => endDayButton.enabled = false);
             event1.onClick.AddListener(() => Confirmed());
 
 
@@ -267,6 +268,7 @@ public class ExploreScript : MonoBehaviour {
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
             event1.onClick.AddListener(() => timewarp = 250f);
             event1.onClick.AddListener(() => fastforward = true);
+            event1.onClick.AddListener(() => endDayButton.enabled = false);
             event1.onClick.AddListener(() => Confirmed());
             //event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
         }
@@ -320,8 +322,8 @@ public class ExploreScript : MonoBehaviour {
 
         twoline.text = "There is a building far away (move closer to investigate).";
 
-        event1.GetComponentInChildren<Text>().text = "1. Ok";
-        event1.onClick.AddListener(() => Confirmed());
+        event3.GetComponentInChildren<Text>().text = "3. Ok";
+        event3.onClick.AddListener(() => Confirmed());
     }
 
     protected void Confirmed() {
