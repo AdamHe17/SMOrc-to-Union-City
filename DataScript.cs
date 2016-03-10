@@ -17,7 +17,7 @@ public class DataScript : MonoBehaviour {
 	public static bool gamestarted2;
 	public static float Progress;
 	public GameObject member1, member2, member3;
-    public int dayCount = 1;
+	public int dayCount = 1;
 	//public static Sprite Att0, Att1, Att2, Att3, Att4, Att5, Att6, Att7, Att8;
 	public Sprite supersayan;
 	void Awake()
@@ -29,7 +29,7 @@ public class DataScript : MonoBehaviour {
 				Debug.Log("hello");
 				gamestarted = !gamestarted;
 				DataScript.Party[0] = new Person(true);
-				DataScript.Party[1] = new Person(false);
+				DataScript.Party[1] = new Person(true);
 				DataScript.Party[2] = new Person(false);
 				//Debug.Log(DataScript.Party[0].cur_health);
 				member1 = GameObject.Find("Member1");
@@ -126,13 +126,15 @@ public class DataScript : MonoBehaviour {
 
 			GameObject Health = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
 			GameObject Stamina = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
-			//Debug.Log(id);
+            GameObject XP = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("XP").gameObject;
+            //Debug.Log(id);
 			Text healthtxt = mem.transform.FindChild("HPValue").GetComponent<Text>();
 			Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();
 			Text lvltxt = mem.transform.FindChild("Level").GetComponent<Text>();
 			lvltxt.text = "Level: " + (Party[id].level).ToString();
 			SetBar(Health, cur_health / max_health);
 			SetBar(Stamina, cur_stamina / cur_health);
+            SetBar(XP, xp / xp2lvl);
 			//Debug.Log(max_health);
 			healthtxt.text = Mathf.Ceil(cur_health).ToString() + "/" + max_health.ToString();
 			stamtxt.text = Mathf.Ceil(cur_stamina).ToString() + "/" + max_stamina.ToString();
@@ -232,8 +234,8 @@ public class DataScript : MonoBehaviour {
 			for (int attackid = 0; attackid < 4; attackid++)
 			{
 				GameObject temp = mem.transform.FindChild("Canvas").FindChild("Attacks").GetChild(attackid).gameObject;
-				temp.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Party[id].moveset[attackid].damage_min + "-" + Party[id].moveset[attackid].damage_max;
-				temp.transform.GetChild(1).GetComponentInChildren<Text>().text = (Party[id].moveset[attackid].stamina_cost).ToString();
+				temp.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = Party[id].moveset[attackid].damage_min + "-" + Party[id].moveset[attackid].damage_max;
+				temp.transform.GetChild(2).GetComponentInChildren<Text>().text = (Party[id].moveset[attackid].stamina_cost).ToString();
 				temp.GetComponent<Image>().sprite = GameObject.Find("AttackSprites").transform.GetChild(attackid).GetComponent<SpriteRenderer>().sprite;
 			}
 		}

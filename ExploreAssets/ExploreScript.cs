@@ -44,7 +44,7 @@ public class ExploreScript : MonoBehaviour {
         DontDestroyOnLoad(persistentDataObject);
 
         scrollingBg = GameObject.Find("ScrollingBackground");
-        moveSpeed = 50f;
+        moveSpeed = 3f;
         n_backgrounds = 1;
         lastBuildingPos = 4.9f;
         storeTimer = 2;
@@ -60,14 +60,19 @@ public class ExploreScript : MonoBehaviour {
         Supply = GameObject.Find("SupplyValue").GetComponent<Text>();
         Supply.text = DataScript.supply.ToString();
 
-        if (!DataScript.gamestarted2) {
+        //if (!DataScript.gamestarted2) {
             DataScript.gamestarted2 = !DataScript.gamestarted2;
             for (int i = 1; i <= actionPointLimit; i++) {
                 String tempName = String.Format("AP{0}", i.ToString());
-                actionPoints.Add(tempName, GameObject.Find(tempName).GetComponent<Image>());
+                if (actionPoints.ContainsKey(tempName)) {
+                    actionPoints[tempName] = GameObject.Find(tempName).GetComponent<Image>();
+                }
+                else {
+                    actionPoints.Add(tempName, GameObject.Find(tempName).GetComponent<Image>());
+                }
                 actionPoints[tempName].color = Color.red;
             }
-        }
+        //}
         actionCount = actionPointLimit;
 
         exploreEvent = GameObject.Find("ExploreEvent").GetComponent<CanvasGroup>();
@@ -83,11 +88,19 @@ public class ExploreScript : MonoBehaviour {
         event5 = GameObject.Find("Event5").GetComponent<Button>();
 
 
-        timewarp = 8f;
+        timewarp = 10f;
         sun = GameObject.Find("Sun");
         sky = GameObject.Find("sky");
 
         skycolor = sky.transform.GetComponent<SpriteRenderer>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (DataScript.Party[i].exists)
+            {
+                DataScript.Party[i].xp += 5;
+            }
+        }
         // }
     }
 
@@ -228,6 +241,7 @@ public class ExploreScript : MonoBehaviour {
 
     protected void EndDay(int type) {
         Debug.Log(fastforward);
+
         // update persistent data
         //DataScript.p1hp = (int.Parse(member1HP.text
         DataScript.supply = (int.Parse(Supply.text));
@@ -236,10 +250,11 @@ public class ExploreScript : MonoBehaviour {
         ClearEvents();
         if (type == 0) {
             exploreEvent.alpha = 1;
-            endDayButton.enabled = false;
             oneline.text = "The sun has set, prepare to fight";
 
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
+            event1.onClick.AddListener(() => timewarp = 10f);
+            event1.onClick.AddListener(() => fastforward = false);
             event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
             // SceneManager.LoadScene("CombatScene");
         }
@@ -253,7 +268,6 @@ public class ExploreScript : MonoBehaviour {
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
             event1.onClick.AddListener(() => timewarp = 250f);
             event1.onClick.AddListener(() => fastforward = true);
-            event1.onClick.AddListener(() => endDayButton.enabled = false);
             event1.onClick.AddListener(() => Confirmed());
 
 
@@ -268,7 +282,6 @@ public class ExploreScript : MonoBehaviour {
             event1.GetComponentInChildren<Text>().text = "1. Brave the night";
             event1.onClick.AddListener(() => timewarp = 250f);
             event1.onClick.AddListener(() => fastforward = true);
-            event1.onClick.AddListener(() => endDayButton.enabled = false);
             event1.onClick.AddListener(() => Confirmed());
             //event1.onClick.AddListener(() => SceneManager.LoadScene("CombatScene"));
         }

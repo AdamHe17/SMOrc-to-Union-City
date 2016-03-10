@@ -52,6 +52,8 @@ public class Attacker : MonoBehaviour {
 	public float max_ready;
 	public float cur_ready;
 	public float tic_ready;
+
+    int ireallyneedthis;
 	
 	GameObject targeting;//who we are attacking
 	//public GameObject attack1;
@@ -210,10 +212,11 @@ public class Attacker : MonoBehaviour {
 	void Start(){//mostly just initializing variables used for later
 		dead = false;
 		opacity = 0;
+        ireallyneedthis = 3;
 		manager = GameObject.Find ("Manager");
 		man = manager.GetComponent<Manager> ();
-        GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
-        persistentDataObject.GetComponent<DataScript>().UpdateMoveSets2();
+		GameObject persistentDataObject = GameObject.Find("PersistentData").gameObject;
+		persistentDataObject.GetComponent<DataScript>().UpdateMoveSets2();
 		
 		
 		switch (partynumber) {
@@ -272,15 +275,23 @@ public class Attacker : MonoBehaviour {
 		if (partynumber < 11)
 		{
 			int i = partynumber - 1;
-			if(!DataScript.Party[i].exists){
+			if (!DataScript.Party[i].exists)
+			{
 				Destroy(self);
 			}
 			cur_health = DataScript.Party[i].cur_health;
 			max_health = DataScript.Party[i].max_health;
 			//Debug.Log(cur_stamina);
 			cur_stamina = DataScript.Party[i].cur_stamina;
-		   // Debug.Log(cur_stamina);
+			// Debug.Log(cur_stamina);
 			max_stamina = DataScript.Party[i].max_stamina;
+		}
+		else
+		{
+			max_health += Random.Range(-10, 25);
+			cur_health = max_health;
+            int temp = Random.Range(-3, 7);
+
 		}
 		changeHP(0);
 		changeS(0);
