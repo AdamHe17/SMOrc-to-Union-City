@@ -18,7 +18,7 @@ public class ExploreScript : MonoBehaviour {
     protected static Button endDayButton;
     protected static Dictionary<string, Image> actionPoints = new Dictionary<string, Image>();
     protected static int actionCount;
-    protected int actionPointLimit = 5;
+    protected static int actionPointLimit = 5;
 
     protected static Text Supply;
 
@@ -60,12 +60,7 @@ public class ExploreScript : MonoBehaviour {
         Supply = GameObject.Find("SupplyValue").GetComponent<Text>();
         Supply.text = DataScript.supply.ToString();
 
-<<<<<<< HEAD
         //if (!DataScript.gamestarted2) {
-=======
-        actionCount = actionPointLimit;
-        if (!DataScript.gamestarted2) {
->>>>>>> origin/master
             DataScript.gamestarted2 = !DataScript.gamestarted2;
             for (int i = 1; i <= actionPointLimit; i++) {
                 String tempName = String.Format("AP{0}", i.ToString());
@@ -77,12 +72,8 @@ public class ExploreScript : MonoBehaviour {
                 }
                 actionPoints[tempName].color = Color.red;
             }
-<<<<<<< HEAD
         //}
         actionCount = actionPointLimit;
-=======
-        }
->>>>>>> origin/master
 
         exploreEvent = GameObject.Find("ExploreEvent").GetComponent<CanvasGroup>();
         exploreEvent.alpha = 0;
