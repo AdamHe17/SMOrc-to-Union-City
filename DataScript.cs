@@ -127,7 +127,11 @@ public class DataScript : MonoBehaviour {
 			GameObject Health = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Health").gameObject;
 			GameObject Stamina = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("Stamina").gameObject;
             GameObject XP = mem.transform.FindChild("Canvas").FindChild("Bars").FindChild("XP").gameObject;
+<<<<<<< HEAD
             //Debug.Log(id);
+=======
+			//Debug.Log(id);
+>>>>>>> origin/master
 			Text healthtxt = mem.transform.FindChild("HPValue").GetComponent<Text>();
 			Text stamtxt = mem.transform.FindChild("StamValue").GetComponent<Text>();
 			Text lvltxt = mem.transform.FindChild("Level").GetComponent<Text>();
